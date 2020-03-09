@@ -1,0 +1,64 @@
+
+.perfil-usuario {
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-bottom: 30px;
+  }
+  .perfil-usuario .plantilla-usuario {
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+  }
+  .perfil-usuario .plantilla-usuario img {
+    width: 100%;
+  }
+  .perfil-usuario .plantilla-usuario .perfil-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    text-align: center;
+    top: 0;
+    left: 0;
+    background-color: #c298b2;
+    color: rgb(125, 112, 150);
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+  }
+  .perfil-usuario .plantilla-usuario .perfil-overlay h3 {
+    font-size: 18px;
+    color: white;
+    display: inline-block;
+    padding-bottom: 10px;
+    border-bottom: 1px solid white;
+    margin-top: 64px;
+}
+.perfil-usuario .plantilla-usuario:hover .perfil-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+.opciones-producto-fav{
+    margin-top: 30px;
+}
+.opciones-producto-fav ul li{
+    display: inline-flex;
+    margin: 1.5em;
+}
+.opciones-producto-fav ul li .fa{
+    font-size: 2em;
+    color: rgb(226, 195, 245);
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+.opciones-producto-fav ul li .fa:hover{
+    font-size: 2em;
+    color: rgb(216, 108, 149);
+    text-decoration: none;
+}
