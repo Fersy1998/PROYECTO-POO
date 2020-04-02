@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        
+        <link href="https://fonts.googleapis.com/css?family=Anton|Berkshire+Swash|Bungee+Inline|Bungee+Shade|Changa|Federo|Geo|Gugi|Kumar+One|Lobster|Monoton|Sen|Sonsie+One|Tomorrow|Vampiro+One|Voltaire&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/all_promo_style.css">
@@ -32,7 +32,7 @@
             var mapa=new google.maps.Map(document.getElementById("mapaGoogle"),mapadetalles);
 
             var marcador=new google.maps.Marker({
-                position:myCenter,
+                position:ubicacion,
             });
 
             marcador.setMap(mapa);
@@ -44,21 +44,6 @@
 
     </head>
     <body>
-        <div>
-            <div class="encabezado">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 text-center">
-                            <ul class="redes-sociales">
-                                <li><a href="#" class="fa fa-facebook"></a></li>
-                                <li><a href="#" class="fa fa-twitter"></a></li>
-                                <li><a href="#" class="fa fa-dribbble"></a></li>
-                                <li><a href="#" class="fa fa-linkedin"></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-               
         <div class="seccion" id="inscripcion">
             <div class="container">
                 <div class="row">
@@ -73,11 +58,11 @@
                             <form name="inscripcionform" id="inscripcionform">
                                 <h2>Nombre de la empresa: </h2>
                                 <p>
-                                    <input name="name" class="datos"type="text" id="name-empresa" placeholder="Ejemplo: ALL PROMO" required>
+                                    <input name="name-empresa" class="datos"type="text" id="name-empresa" placeholder="Ejemplo: ALL PROMO" required>
                                 </p>
                                 <h2>Email:</h2>
                                 <p>
-                                    <input name="email" class="datos"type="text" id="email" placeholder="Correo electrónico" required> 
+                                    <input name="email-empresa" class="datos"type="text" id="email-empresa" placeholder="Correo electrónico" required> 
                                 </p>
                                 <h2>País: </h2>
                                 <p>
@@ -324,11 +309,11 @@
                                 </p>
                                 <h2>Dirección</h2>
                                 <p>
-                                    <input type="text" class="datos" name="" id="" placeholder="Col. Gyio" required>
+                                    <input type="text" class="datos" name="direccion" id="direccion" placeholder="Col. Gyio" required>
                                 </p>
                                 <h2>Teléfono: </h2>
                                 <p>
-                                    <input type="tel" name="" id="" class="datos"name="" id="" placeholder="example: 2772-8270" required>
+                                    <input type="tel" name="" id="telefono" class="datos"name="telefono" id="" placeholder="example: 2772-8270" required>
                                 </p>
                                 <h2>Banner</h2>
                                 <p>
@@ -340,15 +325,15 @@
                                 </p>
                                 <h2>Descripción: </h2>
                                 <p>
-                                    <textarea name="" id="" cols="30" rows="20" class="datos"></textarea>
+                                    <textarea name="descripcion" id="descripcion" cols="30" rows="20" class="datos"></textarea>
                                 </p>
                                 <h2>Longitd/Latitud: </h2>
                                 <p>
-                                    <div id="mapaGoogle" style="width:500px;height:380px;"></div>
+                                    <div id="mapaGoogle" style="width:100%px;height:380px;"></div>
                                 </p>
                             </form>
-                            <a href="empresa.html">
-                                <input type="button"class="button"value="Crear cuenta">
+                            <a>
+                                <input type="button"class="button"value="Crear cuenta" id="inscribir-empresa" onclick="validarCampos()">
                             </a>
                             
                         </div>
@@ -357,16 +342,37 @@
                 </div> 
             </div> 
         
-     
-        <div id="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-xs-12 text-center">
-                        <span>Copyright &copy; 2020 ALL PROMO . Página de promocies.</span>
-                    </div> 
-                </div> 
-            </div> 
-        </div> 
+            <footer>
+                
+                <div class="footer-content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="copyright-text">
+                                    <p>Copyright &copy; 2020 <a href="#">ALL PROMO</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="back-to-top">
+                                    <a href="index.html"><i class="fa fa-home"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="social-icons">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+                
+            </footer>
         
 
         
@@ -374,9 +380,8 @@
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-        <script src="js/bootstrap.js"></script>
-
-        <script src="js/controlador.js"></script>
+        
+        <script src="js/controlador-empresa.js"></script>
         
 
     </body>
