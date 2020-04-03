@@ -9,9 +9,9 @@
   align-items: center;
 }
 
-input[type="text"]{
-  padding:4em;
+input{
   border-radius:2px;
+  color:#4d484a;
 }
 .navbar-toggler{
   margin-left: 5%;
@@ -50,7 +50,7 @@ a{
   color:rgb(247, 184, 231);
 }
 a:hover{
-  color:rgb(209, 90, 245);
+  color:#b15e98;
   text-decoration: none;
   outline:none;
 }
@@ -461,7 +461,7 @@ label{
   margin-bottom: 30px;
 }
 .empresas-marcas-item .VENTAJAS-DE-ALL-PROMO-contenedor,
-.sucursal-item .sucursal-item-contenido {
+.sucursal-item .sucursal-item-contenido, .sucursal-item-contenido, .producto-item-contenido{
   position: relative;
   overflow: hidden;
 }
@@ -469,7 +469,7 @@ label{
 .sucursal-item .sucursal-item-contenido img{
   width: 100%;
 }
-.empresas-marcas-item .VENTAJAS-DE-ALL-PROMO-contenedor .VENTAJAS-DE-ALL-PROMO-overlay, .sucursal-item .sucursal-item-contenido .sucursal-overlay{
+.empresas-marcas-item .VENTAJAS-DE-ALL-PROMO-contenedor .VENTAJAS-DE-ALL-PROMO-overlay, .sucursal-item-contenido .sucursal-overlay{
   background-color: #8b4466;
   position: absolute;
   width: 100%;
@@ -481,6 +481,20 @@ label{
   color: white;
   opacity: 0;
   visibility: hidden;
+}
+.producto-item-contenido{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: 15px;
+  text-align: center;
+  text-align: center;
+  color: white;
+  opacity: 0;
+  visibility: hidden;
+  font-size: 1.5em;
 }
 .empresas-marcas-item .VENTAJAS-DE-ALL-PROMO-contenedor .VENTAJAS-DE-ALL-PROMO-overlay h3,
 .sucursal-item .sucursal-item-contenido .sucursal-overlay h3{
@@ -498,6 +512,10 @@ label{
 }
 .empresas-marcas-item .VENTAJAS-DE-ALL-PROMO-contenedor:hover .VENTAJAS-DE-ALL-PROMO-overlay,
 .sucursal-item .sucursal-item-contenido:hover .sucursal-overlay{
+  opacity: 1;
+  visibility: visible;
+}
+.sucursal-item:hover .producto-item-contenido{
   opacity: 1;
   visibility: visible;
 }
@@ -519,11 +537,20 @@ label{
 .inscripcion-form .datos{
   padding: 0.8em;
   margin-top: 15px;
-  color: rgb(19, 18, 18);
+  color: rgb(94, 58, 58);
   background-color:#d8b0f8;
   text-transform: uppercase;
   border: 0;
 }
+.datos-p{
+  padding: 0.4em;
+  margin-top: 15px;
+  color: rgb(94, 58, 58);
+  background-color:#d8b0f8;
+  text-transform: uppercase;
+  border: 0;
+}
+
 #perfil .container #user{
   DISPLAy:flex;
   padding-left:20% !important;
@@ -534,26 +561,28 @@ label{
 }
 .perfil-usuario {
   display:flex;
-  width:auto;
   margin-bottom: 30px;
-  margin-left:20%;
-  margin-right:20%;
-  padding:0%;
+  padding:auto;
+  
 }
 .perfil-usuario .plantilla-usuario {
+  width:300px;
+  height:300px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
+  width:60%;
+  margin-left:20%;
+  margin-right:20%;
 }
 .img-circle{
   border:1.5em solid rgb(226, 195, 245);
   display:block;
   margin:0 auto;
-
   width:auto;
+  width:300px;
+  height:300px;
 }
-.perfil-usuario .plantilla-usuario img {
-  width: 70%;
-}
+
 .perfil-usuario .plantilla-usuario .logo-datos-empresa {
   position: absolute;
   width: 100%;

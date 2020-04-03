@@ -12,6 +12,7 @@ var empresas=[
             longitud:"23.532572",
             latitud:"12.345678"
         },
+        sucursales:[],
         productos:[
             {
                 producto:"Xbox One S All-Digital Edition",
@@ -43,6 +44,50 @@ var empresas=[
         ]
     },
     {
+        empresa:"Dollfies Company",
+        email:"xbox@gmail.com",
+        pais:"Estados Unidos",
+        direccion:"Microsoft Redmond Campus, Redmond, Washington.",
+        telefono:"900 94 8952",
+        banner:"img/bannersEmpresas/banner2-gate.jpg",
+        logo:"img/Marcas/LEGO.jpg",
+        descripcion:"Xbox, o también llamada Xbox Clásica, Xbox Original y/o Primer Xbox . Es una videoconsola de sobremesa de sexta generación producida por Microsoft y la primera de esta empresa, en colaboración con Intel. Su principal característica es su procesador central basado en el procesador Intel Pentium III. El sistema también incorpora un lector de DVD, un disco duro interno, puerto ethernet y por último el sistema dispone de cuatro conectores para los mandos. Las unidades vendidas de este equipo fueron 24 000 000 consolas, según las cifras oficiales.",
+        ll:{
+            longitud:"23.532572",
+            latitud:"12.345678"
+        },
+        sucursales:[],
+        productos:[
+            {
+                producto:"Dollfie 1",
+                descripcion:"Pásate a lo digital con la consola Xbox One S All-Digital Edition y crea una biblioteca de juegos digitales que te acompaña vayas donde vayas y está disponible en la nube. Llévate tus partidas guardadas en la nube y disfruta de la capacidad de reservar y preinstalar los juegos disponibles próximamente para que puedas jugar a ellos en el momento de su lanzamiento. Amplía tus opciones con Xbox Game Pass, descubriendo y descargando más de 100 juegos fantásticos (la suscripción se vende por separado).1",
+                foto:"img/DOLLFIES/images (2).jfif",
+                precio:"350",
+                descuento:"30",
+                valoracion:5,
+                comentarios:[]
+            },
+            {
+                producto:"Dollfie 2",
+                descripcion:"Pásate a lo digital con la consola Xbox One S All-Digital Edition y crea una biblioteca de juegos digitales que te acompaña vayas donde vayas y está disponible en la nube. Llévate tus partidas guardadas en la nube y disfruta de la capacidad de reservar y preinstalar los juegos disponibles próximamente para que puedas jugar a ellos en el momento de su lanzamiento. Amplía tus opciones con Xbox Game Pass, descubriendo y descargando más de 100 juegos fantásticos (la suscripción se vende por separado).1",
+                foto:"img/DOLLFIES/07fffec892ec5fb7090fb12d0741a146.jpg",
+                precio:"33",
+                descuento:"30",
+                valoracion:4,
+                comentarios:[]
+            },
+            {
+                producto:"Dollfie 3",
+                descripcion:"Pásate a lo digital con la consola Xbox One S All-Digital Edition y crea una biblioteca de juegos digitales que te acompaña vayas donde vayas y está disponible en la nube. Llévate tus partidas guardadas en la nube y disfruta de la capacidad de reservar y preinstalar los juegos disponibles próximamente para que puedas jugar a ellos en el momento de su lanzamiento. Amplía tus opciones con Xbox Game Pass, descubriendo y descargando más de 100 juegos fantásticos (la suscripción se vende por separado).1",
+                foto:"img/DOLLFIES/71rrhuDm8xL._AC_UL320_ML3_.jpg",
+                precio:"205",
+                descuento:"25",
+                valoracion:2,
+                comentarios:[]
+            }
+        ]
+    },
+    {
         empresa:"WARNER",
         email:"xbox@gmail.com",
         pais:"Estados Unidos",
@@ -55,6 +100,7 @@ var empresas=[
             longitud:"23.532572",
             latitud:"12.345678"
         },
+        sucursales:[],
         productos:[
             {
                 producto:"Andadora",
@@ -107,6 +153,7 @@ var empresas=[
             longitud:"23.532572",
             latitud:"12.345678"
         },
+        sucursales:[],
         productos:[
             {
                 producto:"Vaso artístico",
@@ -317,7 +364,57 @@ generarListadoEmpresas();
 /****abrir empresa */
 
 function generarEmpresa(e){
+
     var perfil_empresa = document.open("text/html","replace");
+
+    var productosE="";
+    for(let p=0;p<empresas[e].productos.length;p++){
+        productosE+=`
+            <div class="col-md-6 col-sm-6 col-lg-4 col-xs-6">
+            <div class="card" style="background-color:transparent">
+                <div class="item-producto card-img-top">
+                    <div class="imagen-producto">
+                        <img src="${empresas[e].productos[p].foto}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="agregar-fav service-4">
+                        <div class="fav-content">
+                            <a href="#" class="fa fa-heart"></a> <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">${empresas[e].productos[p].producto}</h3>
+                    <img class="icono-nuevo-producto" src="img/icons8-new-50-2.png" alt="">${empresas[e].productos[p].descuento}%
+                    <ul>
+                                <li class="detalle-producto-con-promocion-empresa">
+                                    <a href="#" class="fa fa-database"></a>&nbsp;&nbsp;&nbsp;Precio:${empresas[e].productos[p].precio}L
+                                </li>
+                                <li class="detalle-producto-con-promocion-empresa">
+                                    <a href="#" class="fa fa-home"></a>
+                                    <span>
+                                        &nbsp;&nbsp;&nbsp;Sucursales:
+                                        <ol>
+                                            <li><a href="#Tienda1">Tienda 1</a></li>
+                                            <li><a href="#Tienda2">Tienda 2</a></li>
+                                            <li><a href="#Tienda3">Tienda 3</a></li>
+                                        </ol>
+                                    </span>
+                                </li>
+                            </ul>
+                            <br><br><br><br>
+                            <hr>
+                            <center>
+                                <a class="button MODAL-BUTTON " href="#popup1" onclick="generarPopUp(${e},${p})">
+                                    ver detalles
+                                </a>
+                            </center>
+                        </div>
+                    </div>
+                </div> 
+        `;
+    };
+
+
     var texto =`<!DOCTYPE html>
     <head>
         <meta charset="utf-8">
@@ -349,7 +446,7 @@ function generarEmpresa(e){
                                 <div class="collapse navbar-collapse inline-flex" id="navbarNav">
                                     <ul>
                                         <li>
-                                            <a href="index.html#seccion-landing-page-promociones">Promociones</a>
+                                            <a href="#promociones-empresaE">Promociones</a>
                                         </li>
                                         <li>
                                             <a href="index.html#VENTAJAS-DE-ALL-PROMO">Ventajas</a>
@@ -457,8 +554,6 @@ function generarEmpresa(e){
                 </div>
             </div>
         </div>
-
-    
         <div class="seccion" id="promociones-empresaE">
             <div class="container">
                 <div class="row">
@@ -466,179 +561,7 @@ function generarEmpresa(e){
                         <h2>PROMOCIONES</h2>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-md-4 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="producto-imagen text-center">
-                            <h3>Control Remoto</h3>
-                            <p><img class="icono-nuevo-producto" src="img/icons8-new-50-2.png" alt=""> 30% de descuento</p> 
-                        </div>
-                        <div class="producto-landing" id="service-1">
-                            <div class="producto-corazon">
-                                <span class="corazon">♥</span><br>
-                            </div>
-                            <center>
-                                <div class="contenido-producto">
-                                    <img src="img/empresa/1.jpg" alt="">
-                                    
-                                </div> 
-                            </center>
-                        </div> 
-                        
-                        <div class="opciones-producto-fav">
-                            <ul>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-database"></a>&nbsp;&nbsp;&nbsp;Precio: 500 Lempiras
-                                </li>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-home"></a>
-                                    <span>
-                                        &nbsp;&nbsp;&nbsp;Sucursales:
-                                        <ol>
-                                            <li><a href="#Tienda1">Tienda 1</a></li>
-                                            <li><a href="#Tienda2">Tienda 2</a></li>
-                                            <li><a href="#Tienda3">Tienda 3</a></li>
-                                        </ol>
-                                    </span>
-                                
-                                </li>
-                                
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-sort-amount-desc"></a>
-                                    <p>&nbsp;&nbsp;&nbsp;Descripcion:<br><br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa ad dolor officia beatae expedita quos! Fugit nesciunt aut repellat beatae temporibus neque voluptates repellendus nihil ut nemo. Perspiciatis, dolorem aut.</p>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </div> 
-                    <div class="col-md-4 col-md-4 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="producto-imagen text-center">
-                            <h3>Control Remoto</h3>
-                            <p><img class="icono-nuevo-producto" src="img/icons8-new-50-2.png" alt=""> 30% de descuento</p> 
-                        </div>
-                        <div class="producto-landing" id="service-1">
-                            <div class="producto-corazon">
-                                <span class="corazon">♥</span><br>
-                            </div>
-                            <center>
-                                <div class="contenido-producto">
-                                    <img src="img/empresa/2.jpg" alt="">
-                                    
-                                </div> 
-                            </center>
-                        </div> 
-                        
-                        <div class="opciones-producto-fav">
-                            <ul>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-database"></a>&nbsp;&nbsp;&nbsp;Precio: 500 Lempiras
-                                </li>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-home"></a>
-                                    <span>
-                                        &nbsp;&nbsp;&nbsp;Sucursales:
-                                        <ol>
-                                            <li><a href="#Tienda1">Tienda 1</a></li>
-                                            <li><a href="#Tienda2">Tienda 2</a></li>
-                                            <li><a href="#Tienda3">Tienda 3</a></li>
-                                        </ol>
-                                    </span>
-                                
-                                </li>
-                                
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-sort-amount-desc"></a>
-                                    <p>&nbsp;&nbsp;&nbsp;Descripcion:<br><br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa ad dolor officia beatae expedita quos! Fugit nesciunt aut repellat beatae temporibus neque voluptates repellendus nihil ut nemo. Perspiciatis, dolorem aut.</p>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </div> 
-                    <div class="col-md-4 col-md-4 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="producto-imagen text-center">
-                            <h3>Control Remoto</h3>
-                            <p><img class="icono-nuevo-producto" src="img/icons8-new-50-2.png" alt=""> 30% de descuento</p> 
-                        </div>
-                        <div class="producto-landing" id="service-1">
-                            <div class="producto-corazon">
-                                <span class="corazon">♥</span><br>
-                            </div>
-                            <center>
-                                <div class="contenido-producto">
-                                    <img src="img/empresa/3.jpg" alt="">
-                                    
-                                </div> 
-                            </center>
-                        </div> 
-                        
-                        <div class="opciones-producto-fav">
-                            <ul>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-database"></a>&nbsp;&nbsp;&nbsp;Precio: 500 Lempiras
-                                </li>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-home"></a>
-                                    <span>
-                                        &nbsp;&nbsp;&nbsp;Sucursales:
-                                        <ol>
-                                            <li><a href="#Tienda1">Tienda 1</a></li>
-                                            <li><a href="#Tienda2">Tienda 2</a></li>
-                                            <li><a href="#Tienda3">Tienda 3</a></li>
-                                        </ol>
-                                    </span>
-                                
-                                </li>
-                                
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-sort-amount-desc"></a>
-                                    <p>&nbsp;&nbsp;&nbsp;Descripcion:<br><br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa ad dolor officia beatae expedita quos! Fugit nesciunt aut repellat beatae temporibus neque voluptates repellendus nihil ut nemo. Perspiciatis, dolorem aut.</p>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </div> 
-                    <div class="col-md-4 col-md-4 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="producto-imagen text-center">
-                            <h3>Control Remoto</h3>
-                            <p><img class="icono-nuevo-producto" src="img/icons8-new-50-2.png" alt=""> 30% de descuento</p> 
-                        </div>
-                        <div class="producto-landing" id="service-1">
-                            <div class="producto-corazon">
-                                <span class="corazon">♥</span><br>
-                            </div>
-                            <center>
-                                <div class="contenido-producto">
-                                    <img src="img/empresa/4.jpg" alt="">
-                                    
-                                </div> 
-                            </center>
-                        </div> 
-                        
-                        <div class="opciones-producto-fav">
-                            <ul>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-database"></a>&nbsp;&nbsp;&nbsp;Precio: 500 Lempiras
-                                </li>
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-home"></a>
-                                    <span>
-                                        &nbsp;&nbsp;&nbsp;Sucursales:
-                                        <ol>
-                                            <li><a href="#Tienda1">Tienda 1</a></li>
-                                            <li><a href="#Tienda2">Tienda 2</a></li>
-                                            <li><a href="#Tienda3">Tienda 3</a></li>
-                                        </ol>
-                                    </span>
-                                
-                                </li>
-                                
-                                <li class="detalle-producto-con-promocion-empresa">
-                                    <a href="#" class="fa fa-sort-amount-desc"></a>
-                                    <p>&nbsp;&nbsp;&nbsp;Descripcion:<br><br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa ad dolor officia beatae expedita quos! Fugit nesciunt aut repellat beatae temporibus neque voluptates repellendus nihil ut nemo. Perspiciatis, dolorem aut.</p>
-                                </li>
-                                
-                            </ul>
-                        </div>
-                    </div> 
+                <div class="row" id="rowPromocionesE">${productosE}
                 </div>
             </div>
         </div>
@@ -664,17 +587,7 @@ function generarEmpresa(e){
                             </div>
                         </div> 
                     </div>
-                    <div class="sucursal-item col-md-6 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="sucursal-item-contenido">
-                            <img src="img/Marcas/casanovy.jpg" alt="">
-                            <div class="sucursal-overlay">
-                                <h3>SUCURSAL 1</h3><br>
-                                <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#">
-                                    Ver detalles
-                                </button>
-                            </div>
-                        </div> 
-                    </div>
+                   
                     <div class="sucursal-item col-md-6 col-sm-6 col-lg-3 col-xs-6">
                         <div class="sucursal-item-contenido">
                             <img src="img/Marcas/Intel.png" alt="">
@@ -708,39 +621,7 @@ function generarEmpresa(e){
                             </div>
                         </div> 
                     </div>
-                    <div class="sucursal-item col-md-6 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="sucursal-item-contenido">
-                            <img src="img/Marcas/mendel.jpg" alt="">
-                            <div class="sucursal-overlay">
-                                <h3>SUCURSAL 1</h3><br>
-                                <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#">
-                                    Ver detalles
-                                </button>
-                            </div>
-                        </div>
-                    </div> 
-                    <div class="sucursal-item col-md-6 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="sucursal-item-contenido">
-                            <img src="img/Marcas/Xbox_logo.png" alt="">
-                            <div class="sucursal-overlay">
-                                <h3>SUCURSAL 1</h3><br>
-                                <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#">
-                                    Ver detalles
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="sucursal-item col-md-6 col-sm-6 col-lg-3 col-xs-6">
-                        <div class="sucursal-item-contenido">
-                            <img src="img/Marcas/logos-UNAH-11.png" alt="">
-                            <div class="sucursal-overlay">
-                                <h3>SUCURSAL 1</h3><br>
-                                <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#">
-                                    Ver detalles
-                                </button>
-                            </div> 
-                        </div>
-                    </div>
+                    
                 </div> 
             </div> 
         </div> 
@@ -773,8 +654,11 @@ function generarEmpresa(e){
                         </div>    
                     </div>
                 </div>
-          
+        
         </footer>
+        <div id="popup1" class="overlay">
+        
+        </div>
         
 
 
