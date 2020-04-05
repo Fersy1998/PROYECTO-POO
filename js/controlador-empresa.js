@@ -187,7 +187,6 @@ var empresas=[
 ];
 function generarEmpresa(){
     var empresaG=Math.floor(Math.random()*(empresas.length-1) + 1)-1;
-    alert(empresaG);
     document.getElementById("bannerEmpresa").innerHTML=`
     <img src="${empresas[empresaG].banner}" class="d-block w-100 visible-md visible-lg" alt="...">
     <div class="contenido-slider visible-md visible-lg text-center"><br>
@@ -299,17 +298,19 @@ generarEmpresa();
 /***PopUp formulario adicion producto */ 
 function agregarProducto(e){
     document.getElementById("popup1").innerHTML=`
-    <div class="content w-25 center-block">
-        <div class="inscripcion-form detalles_producto text-left card">
-        <a class="close" href="#" class="float-right">x</a>
-            <h2>AGREGAR UN NUEVO PRODUCTO</h2>
-            <form name="add-producto-form" id="add-producto-form">
+    <div class="content w-50 center-block">
+        <div class="inscripcion-form detalles_producto text-left card container-fluid">
+        <a class="close" href="#" class="float-right row">x</a>
+        <h2>AGREGAR UN NUEVO PRODUCTO</h2>
+        <form name="add-producto-form" id="add-producto-form">
+            <div class="col-12 col-md-6 col-xs-12 col-lg-6 col-xl-6">
                 <h3>Nombre del producto:</h3>
                 <input name="nombre-producto" class="datos-p"type="text" id="nombre-producto" required>
                 <h3> Descripción:</h3>
                 <p>
-                    <input name="descripcion-producto" class="datos-p"type="text" id="descripcion-producto" placeholder="Correo electrónico" required> 
+                <input type="text" id="descripcion-producto" class="datos-p" onkeyup="generarCodigo()">
                 </p>
+                
                 <h3>Precio: </h3>
                 <p>
                     <input type="text" id="precio-producto" class="datos-p"name="precio-producto" required>
@@ -320,8 +321,18 @@ function agregarProducto(e){
                 </p>
                 <h3>Foto del producto</h3>
                 <p>
-                    <input type="file" name="foto-producto" class="datos-p" id="foto-producto">
+                    <input type="file" name="foto-producto" class="datos-p" id="foto-producto" onloadeddata="mostrarImagen()">
                 </p>
+               
+            
+            </div>
+           
+            <div class="col-12 col-md-6 col-xs-12 col-lg-6 col-xl-6">
+            <img src="https://chart.googleapis.com/chart?cht=qr&chl=fuera+JOH&chs=200x200"
+            class="qr-code img-thumbnail img-responsive">
+            </div>
+            <div class="col-12 col-md-6 col-xs-12 col-lg-6 col-xl-6" id="imagen-subida" style="width:100px; height:auto;"></div>
+                
             </form>
             <a>
                 <input type="button"class="button"value="Crear promoción" id="inscribir-empresa" onclick="">
@@ -331,7 +342,20 @@ function agregarProducto(e){
     </div>
     `
 }
+/**mostrar imagen de nuevo producto */
+function mostrarImagen(){
+    alert("no ojfjkfkf");
+    imagen=document.getElementById("foto-producto").value;
+    document.getElementById("imagen-subida").innerHTML=`
+    <img src="${imagen}"
+    class=" img-thumbnail img-responsive">
+    `;
+}
 
+/***GENERAR CÓDIGO QR */ 
+function generarCodigo(){
+    $(".qr-code").attr("src", "https://chart.googleapis.com/chart?cht=qr&chl=" + $("#descripcion-producto").val() + "&chs=200x200");
+};
 /*****generar popUp */
 function generarPopUp(e,p){
     var cs=5-empresas[e].productos[p].valoracion;

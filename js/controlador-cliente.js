@@ -536,8 +536,6 @@ function generarProductosBusqueda(empresa, product){
 
 function generarCliente(){
     var clienteG=Math.floor(Math.random()*(clientes.length-1) + 1)-1;
-    document.write(clienteG);
-    alert(clienteG);
     document.getElementById("Perfil").innerHTML=`
     <div class="container">
     <div class="row">

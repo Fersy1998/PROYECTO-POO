@@ -288,9 +288,12 @@ function validarCamposIndex(){
     if(document.getElementById("name").value.length==0 || document.getElementById("email").value.length==0 || document.getElementById("password").value.length==0 || document.getElementById("fotografia-usuario").value.length==0){
         alert("TODOS LOS CAMPOS SON REQUERIDOS");
     }else{
-        let expresionCorreo=/\w+@\w+\.+[a-z]/;
+        let expresionCorreo=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+        let expresionContrasena=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
         if(!expresionCorreo.test(document.getElementById("email").value)){
             alert("Sintaxis de correo electónico inválida");
+        }else if(!expresionContrasena.test(document.getElementById("password").value)){
+            alert("Ingrese una contraseña válida");
         }else{
             window.open("cliente.html");
         }
@@ -679,7 +682,4 @@ function generarEmpresa(e){
     perfil_empresa.close();
 };
 
-/**
- * 
- * SEARCH dentro de empresa
- */
+
