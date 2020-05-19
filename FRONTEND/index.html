@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+    <head>
+        <meta charset="utf-8">
+        <title>ALL PROMO</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Anton|Berkshire+Swash|Bungee+Inline|Bungee+Shade|Changa|Federo|Geo|Gugi|Kumar+One|Lobster|Monoton|Sen|Sonsie+One|Tomorrow|Vampiro+One|Voltaire&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/font-awesome.css">
+        <link rel="stylesheet" href="css/all_promo_style.css">
+        <link rel="shortcut icon" type="image/x-icon" href="img/LOGO_ALL_PROMO.ico" />
+    </head>
+    <body>
+        <div>
+            <div class="menu-contenedor">
+                <header>
+                    <div class="container">
+                        <div class="logo-box">
+                            <a href="index.html">
+                                <img style="width:100px" src="img/LOGO_ALL_PROMO.png" alt="">
+                            </a>
+                        </div>
+                        <nav>
+                            <button class="navbar-toggler visible-sm visible-xs" style=" color:rgb(255, 254, 255); background-color: rgb(238, 83, 135);" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"><i class="fa fa-bars"></i></span>
+                            </button>
+                            <div class="collapse navbar-collapse inline-flex" id="navbarNav">
+                                <ul>
+                                    <li> <a href="index.html#seccion-landing-page-promociones">Promociones</a></li>
+                                    <li><a href="index.html#VENTAJAS-DE-ALL-PROMO">Ventajas</a></li>
+                                    <li><a href="index.html#Marcas-de-empresas">Empresas</a></li>
+                                    <li><a href="index.html#inscripcion">Suscríbete</a></li>
+                                    <li> <a href="inscripcion-empresa.html">Suscribir empresa</a></li>
+                                    <li><a href="inicio-sesion.html">Iniciar sesión</a></li>
+                                    <form role="search" method="get" id="searchform" action="">
+                                        <input type="text" value="" placeholder="search" class="" id="desplegar" onkeyup="filtrar()"/>
+                                        <label for="desplegar">
+                                            <a class="fa fa-search fa-lg" id="boton"></a>
+                                        </label>
+                                    </form>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+                
+            </div>
+            <div>
+                <div class="slider visible-lg visible-md">
+                    <div class="flexslider">
+                        <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="img/slide3.jpg" class="d-block w-100 visible-md visible-lg" alt="...">
+                                    <div class="contenido-slider visible-md visible-lg">
+                                        <h2>SIEMPRE LAS MEJORES PROMOCIONES</h2><br>
+                                        <a href="#seccion-landing-page-promociones" class="slider-btn  button">Buscar promociones</a>
+                                    </div>
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="contenido-slider visible-md visible-lg">
+                                        <h2>CALIDAD DE SERVICIO Y PRODUCTOS</h2><br>
+                                        <a href="#VENTAJAS-DE-ALL-PROMO" class="slider-btn  button">ver ventajas de ALL PROMO</a>
+                                    </div>
+                                    <img src="img/slide2.jpg" class="d-block w-100 visible-md visible-lg" alt="...">
+                                </div>
+                                <div class="carousel-item">
+                                    <div class="contenido-slider visible-md visible-lg">
+                                        <h2>COMPRAS CONFIABLES EN LÍNEA</h2><br>
+                                        <a href="politicas-de-servicio.html" class="slider-btn  button"> Visita nuestras políticas de servicio</a>
+                                    </div>
+                                    <img src="img/slide1.jpg" class="d-block w-100 visible-md visible-lg" alt="...">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="seccion container" id="sin-resultados">
+            <P class="d-flex text-center">No se han encontrado productos que coincidan con tu búsqueda.</P>
+        </div>
+        
+        <div class="seccion" id="indexsearch">
+            <div class="container">
+                <div class="row">
+                    <div class="cabecera-de-seccion col-md-12 text-center">
+                        <h2>RESULTADOS</h2>
+                    </div>
+                </div>
+                <div class="row" id="productos-busqueda">
+                </div>
+
+            </div>
+        </div>
+        <div class="seccion" id="seccion-landing-page-promociones">
+            <div class="container">
+                <div class="row">
+                    <div class="cabecera-de-seccion col-md-12 text-center">
+                        <h2>PROMOCIONES</h2>
+                        <p>Lo más destacado esta semana</p>
+                    </div>
+                </div>
+                <div class="row" id="row-seccion-landing-page-promociones">
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="seccion" id="VENTAJAS-DE-ALL-PROMO">
+            <div class="container">
+                <div class="row">
+                    <div class="cabecera-de-seccion col-md-12 text-center">
+                        <h2>ALL PROMO TE OFRECE</h2>
+                        <p>Las ventajas de obtener un producto de calidad al mejor precio</p>
+                        <center>
+                            <div class="carouseldiv">
+                                <div id="carouselExampleControls" class="carousel slide promoslide" data-ride="carousel">
+                                    <div class="carousel-inner container">
+                                        <div class="carousel-item active">
+                                            <div class="carouselimg">
+                                                <img src="img/computadora_tienda_online.png" class="d-inline w-50" alt="...">
+                                                <div class="parrafocarousel d-inline w-50 h-50 text-center"><p>OFERTAS EXCLUSIVAS SOLO EN LÍNEA PARA TI</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item producto-detalle">
+                                            <div class="carouselimg"><img src="IMG/marketing_digital.png" class="d-inline w-50" alt="...">
+                                                <div class="parrafocarousel d-inline w-50 h-50 text-center"><p>REALIZA COMPRAS SEGURAS DESDE LA COMODIDAD DE TU HOGAR</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item empresa">
+                                            <div class="carouselimg"><img src="IMG/facil_empresario.png" class="d-inline w-50" alt="...">
+                                                <div class="parrafocarousel d-inline w-50 text-center"><p>AUMENTA TUS VENTAS UNIÉNDOTE A ESTA PLATAFORMA</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="carousel-item empresa">
+                                            <div class="carouselimg"><img src="img/satisfecho_cliente.png" class="d-inline w-50" alt="...">
+                                                <div class="parrafocarousel d-inline w-50 text-center"><p>OBTÉN MÁS CLIENTES SATISFECHOS DE TUS PRODUCTOS</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </center>
+                    </div>
+                </div>
+                <center>
+                    <h2 id="Marcas-de-empresas">LAS MEJORES MARCAS</h2>
+                    <h3>Empresas de prestigio forman parte de nuestra comunidad</h3>
+                </center>
+                
+                <div class="row" id="row-empresas-index">
+                
+                </div> 
+            </div> 
+        </div> 
+
+        <div class="seccion" id="inscripcion">
+            <div class="container">
+                <div class="row">
+                    <div class="cabecera-de-seccion col-md-12 text-center">
+                        <h2>ÚNETE A LA COMUNIDAD</h2>
+                        <p>Descubre un mundo de promociones</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 col-sm-6">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic eaque ducimus mollitia aspernatur, labore ipsa dolorem excepturi nostrum dolore repellat, impedit, modi sapiente esse? Modi obcaecati officiis vero tempore esse. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Soluta, quidem? Numquam optio voluptatibus ut, voluptatem harum, nesciunt illo doloribus et quaerat obcaecati earum consequatur blanditiis? Ab iure ipsa accusantium corporis!
+                        Velit sapiente numquam necessitatibus aperiam perspiciatis iure ullam voluptatem laborum explicabo, molestias similique quod quam ab recusandae cum deleniti dignissimos non rem consectetur. Itaque commodi quaerat optio! Iure, porro architecto.
+                        Tempora neque commodi saepe voluptatibus debitis repellat magnam ipsa inventore eligendi voluptatum sunt consequuntur esse rerum, ipsam architecto eaque totam expedita, illum, atque reprehenderit. Eum deserunt esse dicta animi quidem?
+                        </p>
+                        <ul class="inscripcion-info">
+                            <li>Teléfono: 2772-82-70</li>
+                            <li>Email: <a href="">all_promo@gmail.com.com</a></li>
+                            <li>Dirección: Tegucigalpa DC, Honduras</li>
+                        </ul><br><br>
+                    </div>
+                    <div class="col-md-5 col-sm-6">
+                        <div class="inscripcion-form">
+                            <form name="inscripcionform" id="inscripcionform">
+                                <p>
+                                    <input name="first-name" class="datos"type="text" id="first-name" placeholder="Nombre" required>
+                                </p>
+                                <p>
+                                    <input name="last-name" class="datos"type="text" id="last-name" placeholder="Apellido" required>
+                                </p>
+                                <p>
+                                    <SELECT id="sexo" class="datos" placeholder="Seleccionar género"  style="width: 100%; padding: 1%; color: gray;"> 
+
+                                        <OPTION Value="Mujer">Mujer</OPTION>
+                                        <OPTION Value="Hombre">Hombre</OPTION>
+                                        <OPTION Value="Otro">Otro</OPTION>
+                                        
+                                        
+                                    </SELECT>
+                                </p>
+                                <p>
+                                    <input name="correo" class="datos"type="text" id="correo" placeholder="Correo electrónico" required> 
+                                </p>
+                                Contraseña: 
+                                <p>
+                                    <input type="password" name="password" id="password" class="datos" required >
+                                </p>
+                                
+                            </form>
+                            <form action="post" name="picForm" id="picForm" enctype="multipart/form-data">
+                                <p>
+                                    Agrega una fotografía a tu perfil
+                                    <input type="file" name="fotografia" class="datos" id="fotografia" placeholder="Agrega una fotografía a tu perfil" accept="image/x-png,image/gif,image/jpeg" />
+                                </p>
+                            </form>
+                            <input type="button"class="button"value="Crear cuenta" onclick="validarCamposIndex()">
+                        </div>
+                        
+                    </div> 
+                </div> 
+            </div> 
+        </div>
+
+        <footer>
+            <div class="footer-content container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="copyright-text">
+                                <p>Copyright &copy; 2020 <a href="#">ALL PROMO</a>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="back-to-top">
+                                <a href="#top"><i class="fa fa-angle-up"></i></a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="social-icons">
+                                <ul>
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-rss"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+    </footer>
+            
+    <div id="popup1" class="overlay">
+        
+    </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+        <script src="js/jquery-3.5.0.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
+
+        <script src="js/controlador.js"></script>
+        
+
+    </body>
+</html>
