@@ -204,7 +204,8 @@ class Usuario{
         if (array_search($empresaFavorita, $empresas, false)==false) {
             array_push($empresas, $empresaFavorita);
             echo json_encode($empresas);
-            
+            $empresas=array_unique($empresas);
+
             $actusuario=array(
                 "codigoCliente"=>$usuario["codigoCliente"],
                 "nombreCliente"=>$usuario["nombreCliente"],
@@ -474,16 +475,13 @@ public static function deleteEmpresaFavorita($cliente,$codEmpresa){
         for($i=0;$i<sizeof($usuarios);$i++){
             if($usuarios[$i]["correo"]==sha1($correo)&&$usuarios[$i]["contrasena"]==sha1($contrasena)){
                 $encontrado=1;
-                echo $usuarios[$i]["codigoUsuario"];
-                return $usuarios[$i]["codigoUsuario"];
+                return json_encode($usuarios[$i]);
             break;
             }
         }
         if($encontrado==0){
-            echo null;
-            return null;
+            
         }
     }
 
 }
-?>                      

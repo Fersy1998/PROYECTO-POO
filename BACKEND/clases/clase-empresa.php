@@ -438,16 +438,14 @@
             $empresas=json_decode($contenidoArchivo, true);
             $encontrado=0;
             for($i=0;$i<sizeof($empresas);$i++){
-                if($empresas[$i]["correo"]==sha1($correo)&&$empresas[$i]["contrasena"]==sha1($contrasena)){
+                if($empresas[$i]["email"]==sha1($correo)&&$empresas[$i]["contrasena"]==sha1($contrasena)){
                     $encontrado=1;
-                    echo $empresas[$i]["codigoEmpresa"];
-                    return $empresas[$i]["codigoEmpresa"];
+                    return json_encode($empresas[$i]);
                 break;
                 }
             }
             if($encontrado==0){
-                echo null;
-                return null;
+               
             }
         }
     }

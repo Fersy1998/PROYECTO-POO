@@ -1,5 +1,29 @@
-var codigoEmpresa="46808bc0-9895-11ea-89d9-811b0330dcdc";
+
 var comentarioGlobal="";
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+var codigoEmpresa=getCookie("codigoEmpresa");
+$(document).ready(function(){
+    $("#imprimir").click(function(){
+        var mode = 'iframe'; //popup
+        var close = mode == "popup";
+        var options = { mode : mode, popClose : close};
+        $("div.printableArea").printArea( options );
+    });
+});
 function generarEmpresa(){
     axios({
         method:'GET',
@@ -13,14 +37,14 @@ function generarEmpresa(){
         document.getElementById("bannerEmpresa").innerHTML=`
         <img src="${empresa.banner}" class="d-block w-100 visible-md visible-lg" alt="...">
         <div class="contenido-slider visible-md visible-lg text-center"><br>
-            <a href="#popUp" class="slider-btn  button" onClick="editarPerfil()">Editar perfil de la empresa</a>
+            <a href="#popUp" class="slider-btn  button" id="editarPerfil" onClick="editarPerfil()">Editar perfil de la empresa</a>
         </div>                               
         `;
         document.getElementById("perfil-empresa").innerHTML=`
         <div class="container">
         <div class="row">
             <div class="cabecera-de-seccion col-md-12 text-center">
-                <h2>${empresa.nombreEmpresa}</h2>
+                <h2>${empresa.nombreEmpresa}</h2>&nbsp;&nbsp;<a href="#" class="fa fa-edit visible-xs visible-sm" onClick="editarPerfil()" data-toggle="tooltip" data-placement="bottom" title="Editar perfil de la empresa"></a>
             </div> 
         </div>
         <div class="row">
@@ -38,7 +62,7 @@ function generarEmpresa(){
                 </div>
             </div> 
         </div>
-        <div class="detalles-empresa col-md-9 col-lg-9 col-sm-6">
+        <div class="detalles-empresa col-md-4 col-lg-4 col-sm-4">
             <div>
                 <h2>Datos generales</h2>
                 <a href="#" class="fa fa-phone">&nbsp;&nbsp;&nbsp; 2772-09-3545 234-543-2323</a><br>
@@ -48,10 +72,14 @@ function generarEmpresa(){
                 <a href="#" class="fa fa-support">&nbsp;&nbsp;&nbsp;CD-R 700MB/DVD 4,7GB</a> <br>
             </div>
         </div>
+        <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+            <div id="map"></div>
+            <!--<iframe width="500" height="300" src="https://api.maptiler.com/maps/streets/?key=oFtOenj9IFPbVxEBpcC0#0.1/${empresa.latitud}/${empresa.longitud}"></iframe>-->
+        </div>
     </div>
         <div class="row">
             <div class="cabecera-de-seccion col-12 text-center">
-                <h2>Sobre nuestra compañía</h2>
+                <h2 id="mas-compania">Sobre nuestra compañía</h2>
         </div>
         <div>
                 <p id="mas-sobre-la-compania">
@@ -61,10 +89,20 @@ function generarEmpresa(){
         </div>
         </div>
         </div>
-        `;
         
-      
-       
+        `;
+        var long=Math.round(empresa.longitud * 100) / 100;
+        var lat=Math.round(empresa.latitud * 100) / 100;
+        var map = L.map('map').setView([long, lat], 8);
+        var gl = L.mapboxGL({
+          attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+          accessToken: 'not-needed',
+          style: 'https://api.maptiler.com/maps/streets/style.json?key=oFtOenj9IFPbVxEBpcC0'
+        }).addTo(map);
+        var marker=L.marker([long ,lat]).addTo(map);
+        /*var map=L.map('map').setView([1000,10000],1);
+        L.tileLayer('https://api.maptiler.com/maps/streets/WMTSCapabilities.xml?key=oFtOenj9IFPbVxEBpcC0', {attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'}).addTo(map);
+        var marker=L.marker([24.52, -54.48]).addTo(map);*/
     })
     .catch(error=>{
         console.log(error);
@@ -76,6 +114,7 @@ function boton(){
     <button class="button" onclick="agregarProducto()">Guardar producto</button>`;
 }
     generarEmpresa();
+
 function generarProductos(){
         axios({
             method:'GET',
@@ -135,6 +174,7 @@ function generarProductos(){
                                     <br><br><br><br>
                                     <hr>
                                     <center>
+                                        <a href="javascript:void(0);" class="button ficha" id="crearFicha${p}">Crear ficha<i class="fa fa-magic" onClick="generarFicha(${p})"></i></a><br><br>
                                         <a class="button MODAL-BUTTON " href="#popUp" onclick="generarPopUp(${p})">
                                             ver detalles
                                         </a>
@@ -152,12 +192,93 @@ function generarProductos(){
             console.log(error);
         })
     }
-    generarProductos();
+   
 /***PopUp formulario adicion producto */ 
+generarProductos();
 
+/*imprimir*/
+$(document).ready(function(){
+    $("#imprimir").click(function(){
+        var mode = 'iframe'; //popup
+        var close = mode == "popup";
+        var options = { mode : mode, popClose : close};
+        $("#Ficha").printArea( options );
+    });
+});
+
+
+/* Generar Ficha*/
+
+function generarFicha(p){
+    document.getElementById("Ficha").style.display="";
+    document.getElementById("Ficha").style.display="block";
+    axios({
+        method:'GET',
+        url:'../BACKEND/api/empresa.php?id='+codigoEmpresa,
+        respType:'json'
+    })
+    .then(res=>{
+        console.log(res.data);
+        var empresa=res.data
+            axios({
+                method:'GET',
+                url:'../BACKEND/api/producto.php?id='+empresa.productos[p],
+                respType:'json'
+            })
+            .then(res=>{
+                var producto=res.data;
+                document.getElementById("Ficha").innerHTML=`
+                <div class="popup" id="print">
+                <div class="content" style="background-color:white;">
+                    <br>
+                    <center><h2 style="font-family: 'Bungee Shade', cursive; ">${producto.producto}</h2></center>
+                    <div class="container-fluid detalles_producto">
+                        <div class="row">
+                            <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                                <h3>Empresa: </h3><p class="information">${empresa.nombreEmpresa}</p>
+                                <h3>Precio: </h3><p class="information" style="color:black; !important"><strike>${producto.precio}</strike>L</p>
+                                <h3>Descuento: </h3><p class="information" style="font-size:3em; color: rgb(206, 5, 5);">${producto.descuento}%</p>
+                                
+                            </div>
+                            <div class="col-8 col-xs-8 col-sm-8 col-md-8 collg-8 col-xl-6">
+                                <div class="product-image">
+                                    <img src="${producto.foto}" style="width:160px;">
+                                    <img src="${producto.codigoProducto}" style="border-color:blue; border-width:3px; border-style:dotted;">
+                                </div>
+                            </div>
+                           
+                        </div>
+                        </div>
+                </div>
+                </div>
+                `;
+            })
+            .catch(error=>{
+                    console.log(error);
+                })
+            })
+            .catch(error=>{
+                    console.log(error);
+                })
+    
+}
+/*function abrirVentana(){
+    var elemento=document.getElementById("Ficha");
+    var ventana = window.open('', 'PRINT', 'height=400,width=600');
+    ventana.document.write('<html><head><title>' + "PRODUCTO" + '</title>');
+    ventana.document.write('<link rel="stylesheet" href="css/all_promo_style.css">');
+    ventana.document.write('</head><body >');
+    ventana.document.write(elemento.innerHTML);
+    ventana.document.write('</body></html>');
+    ventana.document.close();
+    ventana.focus();
+    ventana.print();
+    ventana.close();
+    //var elemento=document.getElementById("Ficha").style.display="none";
+    return true;
+}/*
 /**mostrar imagen de nuevo producto */
 function mostrarImagen(){
-    alert("no ojfjkfkf");
     imagen=document.getElementById("foto-producto").value;
     document.getElementById("imagen-subida").innerHTML=`
     <img src="${imagen}"
@@ -449,10 +570,7 @@ function editarPerfil(){
                                         <p>
                                             <input name="name-empresa" class="datos"type="text" id="name-empresa" placeholder="Ejemplo: ALL PROMO" required value="${empresa.nombreEmpresa}">
                                         </p>
-                                        <h2>Email:</h2>
-                                        <p>
-                                            <input name="email-empresa" class="datos"type="text" id="email-empresa" placeholder="Correo electrónico" required value="${empresa.email}"> 
-                                        </p>
+                                       
                                         <h2>País: </h2>
                                         <p>
                                             <select class="datos" style="width: 100%; padding: 1%; color: gray;" required id="pais" value="${empresa.pais}">
@@ -726,10 +844,7 @@ function editarPerfil(){
                                             ltd:<input type="text" id="latitud" name="latitud"class="datos"value="${empresa.latitud}"/>
                                             Lng:<input type="text" id="longitud" name="longitud"class="datos"value="${empresa.longitud}"/>
                                         </p>
-                                        <h2>Contraseña: </h2>
-                                        <p>
-                                            <input type="password" name="password" id="password" class="datos" required>
-                                        </p>
+                                       
                                     </div>
                                     <a>
                             </div> 
@@ -912,6 +1027,244 @@ function guardarCambiosP(p){
     })       
             
 }
+function generarSucursales(){
+    document.getElementById("sucursales").innerHTML="";
+    axios({
+        method:'GET',
+        url:'../BACKEND/api/empresa.php?id='+codigoEmpresa,
+        respType:'json'
+    })
+    .then(res=>{
+            console.log(res.data);
+            var empresa=res.data;
+            console.log(empresa);
+            var z=0;
+            var x=1;
+            for(var i=0;i<empresa.sucursales.length;i++){
+                axios({
+                    method:'GET',
+                    url:'../BACKEND/api/sucursal.php?id='+empresa.sucursales[i],
+                    respType:'json'
+                })
+                .then(res=>{
+                    console.log(res.data);
+                    sucursal=res.data;
+                    z+=i;
+                    document.getElementById("sucursales").innerHTML+=`
+                    <button class=button type="button" data-toggle="collapse" data-target="#multiCollapse${sucursal.telefono}${z}" aria-expanded="false" aria-controls="multiCollapse${sucursal.telefono}${z}">Sucursal&nbsp; #${x}&nbsp;en&nbsp;${sucursal.pais}</button>
+                    <div class="collapse multi-collapse" id="multiCollapse${sucursal.telefono}${z}">
+                        <div class="card">
+                        <div class="card-header" id="heading${sucursal.telefono}">
+                            <h2 class="mb-0">
+                                Sucursal&nbsp; #${x}&nbsp;en&nbsp;${sucursal.pais}<a href="#" class="fa fa-trash-o" onClick="eliminarSucursal(${x-1})" data-toggle="tooltip" data-placement="bottom" title="Eliminar sucursal"></a>
+                            </h2>
+                        </div>
+                        
+                        <img src="${sucursal.foto}" class="card-img-top" alt="...">
+                          <div class="card-body">
+                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                        `;
+                    x+=1;
+                  
+                }).catch(error=>{
+                    console.log(error);
+            })
+            }
+        }).catch(error=>{
+            console.log(error);
+    })
+
+}
+generarSucursales();
+function agregarSucursal(){
+    let codigo=uuid.v1();
+    var picForm1=$('#picForm1');
+    let formData= new FormData(picForm1[0]);
+    console.log(formData);
+    console.log(document.getElementById("fotografia"));
+    var filename = $('#inputSucursal').val().replace(/C:\\fakepath\\/i, '');
+    axios.post('http://localhost:8080/pooo/FRONTEND/sube-sucursal', formData)
+    .then(res=>{console.log(res);
+        console.log(filename);
+        let sucursal={
+            codigoSucursal:codigo,
+            direccion:document.getElementById("direccion-sucursal").value,
+            telefono:document.getElementById("telefono-sucursal").value,
+            pais:document.getElementById("pais-sucursal").value,
+            longitud:document.getElementById("longitud-sucursal").value,
+            latitud:document.getElementById("latitud-sucursal").value,
+            foto:"img/empresas/sucursales/"+filename,
+        }
+        
+        axios({
+            method:'POST',
+            url:'../BACKEND/api/sucursal.php',
+            respType:'json',
+            data:sucursal
+        }).then(res=>{
+            console.log(res);
+        }).catch(error=>{
+            console.log(error);
+        })
+        axios({
+            method:'PUT',
+            url:'../BACKEND/api/empresa.php',
+            respType:'json',
+            data:{
+                accion:"agregar-sucursal",
+                codigoEmpresa:codigoEmpresa,
+                codigoSucursal:codigo
+            }
+        }).then(res=>{
+            console.log(res);
+            generarSucursales();
+        }).catch(error=>{
+            console.log(error);
+        })
+        
+    }).catch(error=>{
+        console.log(error);
+    })
+}
+
+function eliminarSucursal(indice){
+    axios({
+        method:'GET',
+        url:'../BACKEND/api/empresa.php?id='+codigoEmpresa,
+        respType:'json'
+    })
+    .then(res=>{
+            console.log(res.data);
+            var empresa=res.data;
+            console.log(empresa);
+            axios({
+                method:'DELETE',
+                url:'../BACKEND/api/sucursal.php?id='+empresa.sucursales[indice],
+                respType:'json'
+            })
+            .then(res=>{
+                generarSucursales();
+            }).catch(error=>{
+                console.log(error);
+            })
+        }).catch(error=>{
+            console.log(error);
+        })
+
+}
+
+function vista() {
+    var x = document.getElementById("myDIV");
+    var mas=document.getElementById("mas-sobre-la-compania");
+    var masT=document.getElementById("mas-compania");
+    var Tsuc=document.getElementById("Tsuc");
+    var agrProm=document.getElementById("agregarPromociones");
+    var Tsuc=document.getElementById("Tsuc");
+    if (x.style.display === "none") {
+      x.style.display = "block";
+    } else {
+      x.style.display = "none";
+    }
+    if(mas.style.display==="none"){
+        mas.style.display="block";
+    }else{
+        mas.style.display="none";
+    }
+    if(masT.style.display==="none"){
+        masT.style.display="block";
+        agrProm.innerHTML="PROMOCIONES PUBLICADAS";
+        Tsuc.innerHTML="SUCURSALES";
+        document.getElementById('editarPerfil').style.visibility="hidden";
+    }else{
+        masT.style.display="none";
+        agrProm.innerHTML=`
+        PROMOCIONES PUBLICADAS&nbsp;&nbsp;&nbsp;<a href="#popup1" class="fa fa-plus-circle" onclick="boton()" data-toggle="tooltip" data-placement="bottom" title="Agregar producto"></a>
+        `;
+        Tsuc.innerHTML=`SUCURSALES &nbsp;&nbsp;&nbsp; <a href="#popup2"class="fa fa-plus-circle" data-toggle="tooltip" data-placement="bottom" title="Agregar sucursal" ></a>
+        `;
+        document.getElementById('editarPerfil').style.visibility="visible";
+    }
+    if(Tsuc.style.visibility==="none"){
+        Tsuc.style.visibility="block ";
+    }else{
+        Tsuc.style.visibility="none !important";
+    }
+   /* if(document.getElementById('editarPerfil').style.display==="none"){
+        console.log("hola 1");
+        document.getElementById('editarPerfil').style.display="block ";
+    }else{
+        document.getElementById('editarPerfil').style.display="none";
+        console.log("hola 2");
+    }*/
+   /* axios({
+        method:'GET',
+        url:'../BACKEND/api/empresa.php?id='+codigoEmpresa,
+        respType:'json'
+    })
+    .then(res=>{
+            var empresa=res.data;
+            console.log(empresa);
+            var p;
+            for(p=0;p<empresa.productos;p++){
+                var id='crearFicha'.p;
+                console.log(id);
+                var elemento=document.getElementById(id);
+                if(elemento.style.display==="none"){
+                    elemento.style.display="block ";
+                }else{
+                    elemento.style.display="none";
+                }
+            }
+    }).catch(error=>{
+            console.log(error);
+    })*/
+    var ToHide = document.getElementsByClassName("ficha"); 
+        for(var i = 0; i < ToHide.length; i++){
+            if(ToHide[i].style.display=="block"){
+                ToHide[i].style.display = "none"; 
+            }else{
+                ToHide[i].style.display="block";
+            }
+        }
+    var trash = document.getElementsByClassName("fa-trash-o"); 
+        for(var i = 0; i < trash.length; i++){
+            if(trash[i].style.display=="block"){
+                trash[i].style.display = "none"; 
+            }else{
+                trash[i].style.display="block";
+            }
+        }
+    var edit = document.getElementsByClassName("fa-edit"); 
+        for(var i = 0; i < edit.length; i++){
+            if(edit[i].style.display=="block"){
+                edit[i].style.display = "none"; 
+            }else{
+                edit[i].style.display="block";
+            }
+        }
+}
+/*mapa
+const LATITUD_CENTRO = 19.413793,
+    LONGITUD_CENTRO =  -99.128145,
+    ZOOM = 15;
+
+const mapa = new ol.Map({
+    target: 'mapa', // el id del elemento en donde se monta
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        })
+    ],
+    view: new ol.View({
+        center: ol.proj.fromLonLat([LONGITUD_CENTRO, LATITUD_CENTRO]),
+        zoom: ZOOM,
+    })
+});
+finmapa*/
 
 
 

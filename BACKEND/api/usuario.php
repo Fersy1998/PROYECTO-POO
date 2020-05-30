@@ -1,6 +1,8 @@
 <?php
     header("content-Type:/aplication/json");
     include_once("../clases/clase-usuario.php");
+ 
+
     switch ($_SERVER['REQUEST_METHOD']) {
         case 'GET':
             if (isset($_GET['id'])) {

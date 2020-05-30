@@ -2,7 +2,26 @@
 var productos=[];
 var mis_productos=[]
 var comentarioGlobal="nada";
-var codigoCliente="cea32440-97be-11ea-b3cc-2fb249f7e1a4";
+/*
+if (codigoCliente="undefined"){
+    //window.location.href= 'logout.php';
+}*/
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+var codigoCliente=getCookie("codigoUsuario");
 function getProductos(){
     axios({
         method:'GET',
@@ -25,7 +44,6 @@ function llenarProductos(data){
     }
 }
 getProductos();
-
 /*function getUsuario(){
     axios({
         method:'GET',
@@ -161,7 +179,7 @@ function generarPopUp(p){
                     <div class="container-fluid detalles_producto">
                         <div class="row">
                             <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                <h3>Empresa: </h3><p class="information">${empresa.nombreEmpresa}</p>
+                                <h3>Empresa: </h3><p class="information">${empresa.nombreEmpresa}&nbsp;&nbsp;<a href="#popup1" class="fa fa-plus-circle" onclick="agregarEmpresaFav('${empresa.codigoEmpresa}')" data-toggle="tooltip" data-placement="bottom" title="Agregar empresa a favoritas"></a></p>
                                 <h3>Precio: </h3><p class="information">${productos[p].precio}L</p>
                                 <h3>Descuento: </h3><p class="information">${productos[p].descuento}%</p>
                                 <h3>Pago total: </h3><p class="information">${nuevoprecio}L</p>
@@ -181,7 +199,7 @@ function generarPopUp(p){
                             <div class="comments-container col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
                                 <h3>Comentarios</h3>
                                 <CENTER><a onclick="obtenerComentarioGlobal()" class="button" ><i class="fa fa-eye"></i>&nbsp;&nbsp;VER LOS COMENTARIOS</a></CENTER>
-                                <ul id="comments-list" class="comments-list">
+                                <ul id="comments-list" class="comments-list" style="display:none;">
                                    
                                 </ul>
                             </div>
@@ -201,6 +219,11 @@ function obtenerComentarioGlobal(){
     console.log("comentario global en obtener");
     console.log(comentarioGlobal);
     document.getElementById("comments-list").innerHTML=comentarioGlobal;
+    if(document.getElementById("comments-list").style.display=="block"){
+        document.getElementById("comments-list").style.display="none"
+    }else{
+        document.getElementById("comments-list").style.display="block"
+    }
 }
 
 function words(comentario){
@@ -326,7 +349,6 @@ function generarProductosBusqueda(product){
 /***Generar datos cliente */
 
 function generarCliente(){
-    var usuario;
     axios({
         method:'GET',
         url:'../BACKEND/api/usuario.php?id='+codigoCliente,
@@ -334,6 +356,7 @@ function generarCliente(){
         
     })
     .then(res=>{
+        console.log(codigoCliente);
         console.log(res.data);
             const usuario=res.data;
             document.getElementById("Perfil").innerHTML=`
@@ -361,9 +384,6 @@ function generarCliente(){
         console.log(error);
     })
 }
-generarCliente();
-generarEmpresasFavoritas();
-generarProductosFavoritos();
 
 /**GENERAR PRODUCTOS FAV */
 function generarProductosFavoritos(){
@@ -458,7 +478,7 @@ function generarEmpresasFavoritas(){
                     <div class="VENTAJAS-DE-ALL-PROMO-contenedor">
                         <img src="${empresa.logoimg}" alt="">
                         <div class="VENTAJAS-DE-ALL-PROMO-overlay">
-                            <h3><a href="#" class="fa fa-trash-o" onClick="eliminarEmpresa(${empresa.codigoEmpresa})"></a></h3>
+                            <h3><a href="#" class="fa fa-trash-o" onClick="eliminarEmpresa('${empresa.codigoEmpresa}')"></a></h3>
                             <a href="empresa-perfil.html">
                                     <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#">
                                     Ir al perfil
@@ -585,7 +605,25 @@ function agregarProductoFav(codP){
         console.log(error);
     })
 }
-
+function agregarEmpresaFav(codE){
+    console.log(codE);
+    let agregarEmpresa={
+        accion:"agregar-empresa-fav",
+        codigoEmpresa:codE,
+        cliente:codigoCliente
+    }
+    axios({
+        method:'PUT',
+        url:'../BACKEND/api/usuario.php?id='+codigoCliente,
+        respType:'json',
+        data:agregarEmpresa
+    }).then(res=>{
+        console.log(res);
+        generarEmpresasFavoritas();
+    }).catch(error=>{
+        console.log(error);
+    })
+}
 function agregarCarrito(codP){
     console.log(codP);
     var codProducto=productos[codP].codigoProducto;
@@ -853,4 +891,56 @@ function comentarPopUp(p){
         </div>
         `;
 }
+generarCliente();
+generarEmpresasFavoritas();
+generarProductosFavoritos();
+var sucursales=[];
+function mostrarMapa(){
+    /*var map = L.map('map').setView([13, 17], 3);
+    var gl = L.mapboxGL({
+    attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
+    accessToken: 'not-needed',
+    style: 'https://api.maptiler.com/maps/streets/style.json?key=oFtOenj9IFPbVxEBpcC0'
+    }).addTo(map);*/
+    if(document.getElementById("indexMap").style.display=="block"){
+        document.getElementById("indexMap").style.display="none";
+    }else{
+        document.getElementById("indexMap").style.display="block"
+    }
+    
+    axios({
+        method:'GET',
+        url:'../BACKEND/api/sucursal.php',
+        respType:'json',
+        
+    })
+    .then(res=>{
+        sucursales=res.data;
+        console.log(sucursales);
+        mostrarMapaF();
+    }).catch(error=>{
+        console.log(error);
+    })
+    console.log(sucursales);
+  
+      
 
+}
+function mostrarMapaF(){
+    var zoom = 2;
+      
+    var map = L.map('map').setView([41.6857693, -5.9423150], zoom);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    var markers = []
+    for (var i = 0; i < sucursales.length; i++){
+        markers[i]= [sucursales[i].pais, sucursales[i].longitud,sucursales[i].latitud];
+        console.log(markers[i]);
+    }
+  
+      for (var i = 0; i < markers.length; i++) {
+        marker = new L.marker([markers[i][1],markers[i][2]]).bindPopup(sucursales[i].pais).addTo(map);
+      }
+}

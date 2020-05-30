@@ -5,18 +5,42 @@ function validarCampos(){
         alert("NO HA COMPLETADO LOS CAMPOS");
     }else{
         let expresionCorreo=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-        let expresionContrasena=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
+        //let expresionContrasena=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
         if(!expresionCorreo.test(document.getElementById("email").value)){
             alert("Sintaxis de correo electónico inválida");
         }
-        else if(!expresionContrasena.test(document.getElementById("contrasena").value)){
-            alert("La contraseña no coincide");
-        }else{
-            buscarCoincideincias();
+       // else if(!expresionContrasena.test(document.getElementById("contrasena").value)){
+         //   alert("La contraseña no coincide");
+        else{
+            login();
             //window.open("cliente.html");
         }
     }
 }
+function login(){
+    axios({
+        method:'POST',
+        url:'../BACKEND/api/login.php',
+        respType:'json',
+        data:{
+            email: document.getElementById("email").value,
+            password: document.getElementById("contrasena").value
+        }
+    }).then(res=>{
+        console.log(res.data);
+        var tipo=res.data;
+        console.log(tipo["resultCode"]);
+        if(tipo["resultCode"]==1){
+            window.location.href = 'cliente.php';
+        }else if(tipo["resultCode"]==2){
+            window.location.href = 'empresa.php';
+        }
+       // 
+    }).catch(error=>{
+        console.log(error);
+    })
+}
+/*
 function buscarCoincideincias(){
     if(codigo==null||codigo=="null"){
         axios({
@@ -52,8 +76,9 @@ function buscarCoincideincias(){
         })
         
     } 
-    WriteFile();
-}
+    //WriteFile();
+}*/
+/*
 function Codigo(code){
     codigo=code;
     console.log(codigo);
@@ -85,4 +110,4 @@ function WriteFile()
     var txt=archivoTxt.responseText;
     console.log("*********************");
     console.log(txt);
-}
+}*/

@@ -47,8 +47,6 @@
                 Empresa::actualizarEmpresa(
                     $_PUT['nombreEmpresa'],
                     $_PUT['codigoEmpresa'],
-                    $_PUT['email'],
-                    $_PUT['contrasena'],
                     $_PUT['pais'],
                     $_PUT['direccion'],
                     $_PUT['telefono'],
