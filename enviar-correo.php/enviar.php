@@ -51,14 +51,14 @@ $mail->setFrom('fersy119988@gmail.com', 'No responder');
 //$mail->addReplyTo('replyto@example.com', 'First Last');
  
 //Set who the message is to be sent to
-$mail->addAddress('fersy1998@hotmail.com', 'Luis David');
+$mail->addAddress('fersy119988@gmail.com', 'Fersy Martinez');
  
 //Set the subject line
 $mail->Subject = 'PHPMailer GMail SMTP test';
  
 //Read an HTML message body from an external file, convert referenced images to embedded,
 //convert HTML into a basic plain-text alternative body
-$mail->Body = "<h1>Prueba de correo</h1><br><br>Mensaje de prueba mandado por {luis david} con phpmailer en formato html<br>";
+$mail->Body = "<h1>Prueba de correo</h1><br><br>Mensaje de prueba mandado por {Fersy Martinez} con phpmailer en formato html<br>";
  
 //Replace the plain text body with one created manually
 $mail->AltBody = 'This is a plain-text message body';

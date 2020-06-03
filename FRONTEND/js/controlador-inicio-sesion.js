@@ -1,5 +1,5 @@
 
-var codigo=null;
+
 function validarCampos(){
     if (document.getElementById("email").value.length==0||document.getElementById("contrasena").value.length==0){
         alert("NO HA COMPLETADO LOS CAMPOS");
@@ -27,14 +27,19 @@ function login(){
             password: document.getElementById("contrasena").value
         }
     }).then(res=>{
-        console.log(res.data);
         var tipo=res.data;
         console.log(tipo["resultCode"]);
         if(tipo["resultCode"]==1){
             window.location.href = 'cliente.php';
         }else if(tipo["resultCode"]==2){
             window.location.href = 'empresa.php';
+        }else if(tipo["resultCode"]==3){
+            window.location.href = 'super.php';
         }
+        else{
+           alert("CONTRASEÑA O CORREO INCORRECTOS");
+        }
+
        // 
     }).catch(error=>{
         console.log(error);

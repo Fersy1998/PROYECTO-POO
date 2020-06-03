@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/all_promo_style.css">
+        
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
   integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
   crossorigin=""/>
@@ -64,6 +65,9 @@
                                         </li>
                                         <li class="nav-item">
                                             <a href="#perfil-empresa">Perfil</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="dash.php">Gráfico</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="#promociones-empresa">Promociones</a>
@@ -133,14 +137,16 @@
                        <div id="map"></div>
 
                     </div>
+                      
                 </div>
-                <div class="row">
+               
+               
                     <div class="cabecera-de-seccion col-12 text-center" id="mas-compania">
                        
                     </div>
                 <div>
                         <p id="mas-sobre-la-compania">
-                           
+
                         </p>
                     
                 </div>
@@ -148,7 +154,6 @@
             </div>
         </div>
 
-    
         <div class="seccion" id="promociones-empresa">
             <div class="container">
                 <div class="row">
@@ -182,7 +187,10 @@
                 </div> 
             </div> 
         </div> 
-        
+        <div id="Ficha" style="display:none;">
+            
+            </div>
+            <center><input type="button" id="imprimir"class="button" style="display:none" value="IMPRIMIR" onClick="cambiarValor()"/></center>
         <footer>
            
                 <div class="footer-content">
@@ -303,15 +311,7 @@
                 </div>
 
         </div>
-        <div id="Ficha" style="display:none;">
-            
-        </div>
-        <button id="imprimir">IMPRIMIR</button>
-        <button onclick="myFunction()">Click Me</button>
-
-<div id="myDIV">
-  This is my DIV element.
-</div>
+      
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
       
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
@@ -323,15 +323,7 @@
         <script src="js/jquery.PrintArea.js"></script>
         <script src="js/controlador-empresa.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
-       <script>
-      var map = L.map('map').setView([61.60640, -288.28125], 0);
-      var gl = L.mapboxGL({
-        attribution: '<a href="https://www.maptiler.com/copyright/" target="_blank">© MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">© OpenStreetMap contributors</a>',
-        accessToken: 'not-needed',
-        style: 'https://api.maptiler.com/maps/streets/style.json?key=oFtOenj9IFPbVxEBpcC0'
-      }).addTo(map);
-      //var marker=L.marker([24.52, -54.48]).addTo(map);
-    </script>
-
+      
+   
     </body>
 </html>

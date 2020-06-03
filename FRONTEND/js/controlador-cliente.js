@@ -134,7 +134,7 @@ function generarPopUp(p){
                                 <li>
                                 <div class="comment-main-level row">
                                     <!-- Avatar -->
-                                    <div class="comment-avatar col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2"><img src="${usuario.fotoPerfil}" alt=""></div>
+                                    <div class="comment-avatar col-1col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2"><img src="${usuario.fotoPerfil}" alt=""></div>
                                     <!-- Contenedor del Comentario -->
                                     <div class="comment-box col-lg-10 col-md-10 col-sm-10 col-xs-10 col-xl-10">
                                         <div class="row">
@@ -185,13 +185,11 @@ function generarPopUp(p){
                                 <h3>Pago total: </h3><p class="information">${nuevoprecio}L</p>
                             </div>
                             <div class="col-6 col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                                <div class="product-image">
-                                    <img src="${productos[p].foto}">
-                                </div>
-                                <div>
-                                    <span class="estrellas" id="">${cods}
-                                    </span>
-                                </div>
+                            <center>
+                            <img src="${productos[p].foto}" ><hr>
+                            <span class="hint-star"style="width:100%;">${cods}
+                            </span>
+                            </center>
                             </div>
                         </div>
                         <div class="row">
@@ -217,7 +215,6 @@ function generarPopUp(p){
 };
 function obtenerComentarioGlobal(){
     console.log("comentario global en obtener");
-    console.log(comentarioGlobal);
     document.getElementById("comments-list").innerHTML=comentarioGlobal;
     if(document.getElementById("comments-list").style.display=="block"){
         document.getElementById("comments-list").style.display="none"
@@ -290,7 +287,6 @@ const resultado=document.querySelector("#resultado-busqueda");
 function filtrar(){
     const formulario=document.querySelector("#desplegar");
    
-    console.log(formulario.value);
     const texto=formulario.value.toLowerCase();
     document.getElementById("productos-busqueda").innerHTML="";
     var c=0;
@@ -318,7 +314,6 @@ function filtrar(){
     }
 }
 function generarProductosBusqueda(product){
-    console.log(productos[product].producto);
     document.getElementById("productos-busqueda").innerHTML+=`
     <div class="col-md-3 col-sm-6 col-lg-3 col-xs-6">
         <div class="card">
@@ -356,8 +351,6 @@ function generarCliente(){
         
     })
     .then(res=>{
-        console.log(codigoCliente);
-        console.log(res.data);
             const usuario=res.data;
             document.getElementById("Perfil").innerHTML=`
             <div class="container">
@@ -368,12 +361,14 @@ function generarCliente(){
                 </div> 
             </div>
             <div class="row">
-                    <div class="perfil-usuario col-md-12  col-lg-12 col-xs-12">
+                    <div class="perfil-usuario col-md-12  col-lg-12 col-xs-5">
                         <div class="plantilla-usuario text-center">
+                        <center>
                             <img src="${usuario.fotoPerfil}" class="img-circle"alt="">
                             <div class="perfil-overlay"><br><br>
                                 <a href="#popup1" onclick="editarPerfil()"><h4>Editar Perfil</h4></a>
                             </div>
+                            </center>
                         </div> 
                     </div>
             </div>
@@ -463,7 +458,6 @@ function generarEmpresasFavoritas(){
         usuario=res.data;
         document.querySelector('#empresas-favoritas .row').innerHTML="";
         for(e=0;e<usuario.empresasFavoritas.length;e++){
-            console.log(usuario.empresasFavoritas[e]);
             axios({
                 method:'GET',
                 url:'../BACKEND/api/empresa.php?id='+usuario.empresasFavoritas[e],
@@ -472,18 +466,17 @@ function generarEmpresasFavoritas(){
             })
             .then(res=>{
                 const empresa=res.data;
-                console.log(res.data);
                 document.querySelector('#empresas-favoritas .row').innerHTML+=`
                 <div class="empresas-marcas-item col-md-4 col-sm-6 col-lg-3     col-xs-6">
                     <div class="VENTAJAS-DE-ALL-PROMO-contenedor">
                         <img src="${empresa.logoimg}" alt="">
                         <div class="VENTAJAS-DE-ALL-PROMO-overlay">
                             <h3><a href="#" class="fa fa-trash-o" onClick="eliminarEmpresa('${empresa.codigoEmpresa}')"></a></h3>
-                            <a href="empresa-perfil.html">
-                                    <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#">
+                        
+                                    <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#" onClick="verPerfil('${empresa.codigoEmpresa}')">
                                     Ir al perfil
                                     </button>
-                            </a>
+                         
                         </div> 
                     </div> 
                 </div>
@@ -495,6 +488,13 @@ function generarEmpresasFavoritas(){
         }
 })
 }
+function verPerfil(codigoEmpresa){
+    var localStorage=window.localStorage;
+    var empresaCode;
+        empresaCode=`${codigoEmpresa}`;
+        localStorage.setItem("empresaCode", empresaCode);
+        window.open('empresa-perfil.php', '_blank');
+}
 function editarPerfil(){
         axios({
             method:'GET',
@@ -503,7 +503,6 @@ function editarPerfil(){
             
         })
         .then(res=>{
-            console.log(res.data);
             const usuario=res.data;
             document.getElementById("popup1").innerHTML=`
             <div class="popup special">
@@ -536,15 +535,11 @@ function editarPerfil(){
                                     <input name="correo" class="datos"type="text" id="correo" placeholder="Correo electrónico" required > 
                                 </p>
                                 <p>
-                                <h4>Contraseña:</h4>
-                                    <input type="password" name="password" id="password" class="datos" required >
-                                </p>
-                                
                                 </form>
                                 <form action="post" name="picForm" id="picForm" enctype="multipart/form-data">
                                 <p>
-                                    Agrega una fotografía a tu perfil
-                                    <input type="file" name="fotografia" class="datos" id="fotografia" placeholder="Agrega una fotografía a tu perfil" accept="image/x-png,image/gif,image/jpeg" />
+                                    <h3>Agrega una fotografía a tu perfil</h3>
+                                    <input type="file" name="fotografia" class="datos" id="fotografia"  accept="image/x-png,image/gif,image/jpeg" />
                                 </p>
                             </form>
                                 </p>
@@ -585,9 +580,7 @@ function editarPerfil(){
    
 }
 function agregarProductoFav(codP){
-    console.log(codP);
     var codProducto=productos[codP].codigoProducto;
-    console.log(codProducto);
     let agregarProducto={
         accion:"agregar-producto-fav",
         codigoProducto:codProducto,
@@ -599,7 +592,6 @@ function agregarProductoFav(codP){
         respType:'json',
         data:agregarProducto
     }).then(res=>{
-        console.log(res);
         generarProductosFavoritos();
     }).catch(error=>{
         console.log(error);
@@ -618,7 +610,6 @@ function agregarEmpresaFav(codE){
         respType:'json',
         data:agregarEmpresa
     }).then(res=>{
-        console.log(res);
         generarEmpresasFavoritas();
     }).catch(error=>{
         console.log(error);
@@ -668,7 +659,6 @@ function eliminarProducto(codP){
 function eliminarDeCarrito(codP){
     console.log(codP);
     const codProducto=productos[codP].codigoProducto;
-    console.log(codProducto);
     axios({
         method:'PUT',
         url:'../BACKEND/api/usuario.php?id='+codigoCliente,
@@ -686,7 +676,6 @@ function eliminarDeCarrito(codP){
     });
 }
 function eliminarEmpresa(codEmpresa){
-    console.log(codEmpresa);
     axios({
         method:'PUT',
         url:'../BACKEND/api/usuario.php?id='+codigoCliente,
@@ -705,15 +694,14 @@ function eliminarEmpresa(codEmpresa){
 }
 /****formulario de Actualizar usuario */
 function validarCamposIndex(){
-    if(document.getElementById("first-name").value.length==0 || document.getElementById("last-name").value.length==0 ||document.getElementById("sexo").value.length==0 ||document.getElementById("correo").value.length==0 || document.getElementById("password").value.length==0 || document.getElementById("fotografia").value.length==0){
+    if(document.getElementById("first-name").value.length==0 || document.getElementById("last-name").value.length==0 ||document.getElementById("sexo").value.length==0 ||document.getElementById("correo").value.length==0 || document.getElementById("fotografia").value.length==0){
         alert("TODOS LOS CAMPOS SON REQUERIDOS");
     }else{
         let expresionCorreo=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
-        let expresionContrasena=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;
+        /*let expresionContrasena=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,15}/;*/
         if(!expresionCorreo.test(document.getElementById("correo").value)){
             alert("Sintaxis de correo electónico inválida");
-        }else if(!expresionContrasena.test(document.getElementById("password").value)){
-            alert("Ingrese una contraseña válida: mayúsculas, minúsculas, números y caracteres especiales");
+
         }else{
             guardarUsuario();
             //window.open("cliente.html");
@@ -736,8 +724,7 @@ function guardarUsuario(){
             fotoPerfil:res.data,
             codigoCliente:codigoCliente,
             sexo:document.getElementById("sexo").value,
-            correo:document.getElementById("correo").value,
-            contrasena:document.getElementById("password").value
+            correo:document.getElementById("correo").value
             
         }
         axios({
@@ -769,26 +756,14 @@ function miCarrito(){
     })
     .then(res=>{
         var productosCarrito=[]
-        console.log(res.data);
         const usuario=res.data;
-
+        var Total=0;
         productosCarrito=usuario.carrito;
-        console.log(productosCarrito);
         document.getElementById("cuerpo").innerHTML="";
         for(let pc=0;pc<productosCarrito.length;pc++){
-            console.log(productos.length);
             for(let p=0;p<productos.length;p++){
-                console.log(productosCarrito.length);
-                console.log("Carrito+++++++");
-                console.log(productosCarrito[pc]);
-                console.log("Productos+++++++");
-                console.log(productos[p].codigoProducto);
                 if(productosCarrito[pc]==productos[p].codigoProducto){
                     document.getElementById("descripcion-producto").value=productos[p].descripcion;
-                    
-                    console.log("***********precio**************");
-                    console.log(productos[p].precio);
-                    console.log(parseInt(productos[p].precio,10));
                    
                     axios({
                         method:'GET',
@@ -799,8 +774,6 @@ function miCarrito(){
                  
                     .then(res=>{
                         var nuevoprecio= productos[p].precio - (productos[p].descuento/100)*productos[p].precio;
-                        console.log(nuevoprecio);
-                        console.log(res.data);
                         const empresa=res.data;
                         var code=generarCodigo();
                         document.getElementById("cuerpo").innerHTML+=`
@@ -829,7 +802,7 @@ function miCarrito(){
                         </tr>
                         <tr>
                             <td><h3>Unidades:</h3></td>
-                            <td> <input class="datos"type="number" name="unidades" id="unidades" min="0"></td>
+                            <td> <input class="datos"type="number" name="unidades" id="unidades${p}" min="1" value="1" onChange="calcularTotal()"></td>
                         </tr>
                         
                         <tr>
@@ -838,21 +811,55 @@ function miCarrito(){
                             ver detalles
                         </a></td>
                         </tr>
+
+                        
                         `;
                     }).catch(error=>{
                         console.log(error);
                     })
+
+                          
+                                Total+=productos[p].precio-(productos[p].precio*(productos[p].descuento/100));
+                                document.getElementById("total").innerHTML=Math.ceil(Total)+"L";
                 } 
             }
         }
+        
+       
+      
        
     }).catch(error=>{
         console.log(error);
     }) 
   
 }
+function calcularTotal(){
+    axios({
+        method:'GET',
+        url:'../BACKEND/api/usuario.php?id='+codigoCliente,
+        respType:'json',
+        
+    })
+    .then(res=>{
+        var productosCarrito=[]
+        const usuario=res.data;
+        var productosCarrito=usuario.carrito;
+        var Totalx=0;
+        for(c=0;c<productosCarrito.length;c++){
+            for(p=0;p<productos.length;p++){
+                if(productosCarrito[c]==productos[p].code||productosCarrito[c]==productos[p].codigoProducto){
+                    var val=document.getElementById(`unidades${p}`).value;
+                    Totalx+=val*(productos[p].precio-(productos[p].precio*(productos[p].descuento/100)));
+                }
+            }
+            document.getElementById("total").innerHTML=Math.ceil(Totalx)+"L";
+        }
+        
+    }).catch(error=>{
+        console.log(error);
+    }) 
+}
 function calificar(calificacion, producto){
-    console.log(calificacion);
     datos={
         accion:"agregar-valoracion",
         valor:calificacion,
@@ -864,7 +871,6 @@ function calificar(calificacion, producto){
         respType:'json',
         data:datos
     }).then(res=>{
-        console.log(res);
         window.alert("Se ha guardado tu calificación correctamente");
         generarProductosFavoritos();
 
@@ -895,6 +901,7 @@ generarCliente();
 generarEmpresasFavoritas();
 generarProductosFavoritos();
 var sucursales=[];
+var empresas=[];
 function mostrarMapa(){
     /*var map = L.map('map').setView([13, 17], 3);
     var gl = L.mapboxGL({
@@ -916,8 +923,20 @@ function mostrarMapa(){
     })
     .then(res=>{
         sucursales=res.data;
-        console.log(sucursales);
-        mostrarMapaF();
+        axios({
+            method:'GET',
+            url:'../BACKEND/api/empresa.php',
+            respType:'json',
+            
+        })
+        .then(res=>{
+            empresas=res.data;
+            mostrarMapaF();
+        }).catch(error=>{
+            console.log(error);
+        })
+        
+       
     }).catch(error=>{
         console.log(error);
     })
@@ -936,11 +955,98 @@ function mostrarMapaF(){
     }).addTo(map);
     var markers = []
     for (var i = 0; i < sucursales.length; i++){
-        markers[i]= [sucursales[i].pais, sucursales[i].longitud,sucursales[i].latitud];
-        console.log(markers[i]);
+        
+        markers[i]= [sucursales[i].pais, sucursales[i].longitud,sucursales[i].latitud ];
     }
   
       for (var i = 0; i < markers.length; i++) {
-        marker = new L.marker([markers[i][1],markers[i][2]]).bindPopup(sucursales[i].pais).addTo(map);
+            for(e=0;e<empresas.length;e++){
+                if(sucursales[i].codigoEmpresa==empresas[e].codigoEmpresa){
+                    etiqueta=`
+                    <h2>Sucursal de ${empresas[e].nombreEmpresa} en ${sucursales[i].pais}</h2>
+                    <button type="button" class="btn btn-primary  button" data-toggle="modal" data-target="#" onClick="verPerfil('${empresas[e].codigoEmpresa}')">
+                    ${empresas[e].nombreEmpresa}
+                    </button>
+                    `;
+                    for(p=0;p<productos.length;p++){
+                        for(pe=0;pe<empresas[e].productos.length;pe++){
+                            if(productos[p].code==empresas[e].productos[pe]){
+                                etiqueta+=`
+                                <div class="card">
+                                <div class="item-producto">
+                                    <div class="imagen-producto col-1 col-xs-1 col-sm-1, col-xl-1, col-lg-1 col-md-1">
+                                        <img src="${productos[p].foto}" class="" alt="...">
+                                    </div>
+                                    <div class="agregar-fav service-4">
+                                        <div class="fav-content" type="button" data-toggle="tooltip" data-placement="bottom" title="Añadir a favoritos">
+                                            <a href="#" class="fa fa-heart" onclick="agregarProductoFav(${p})"></a><br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h3 class="card-title">${productos[p].producto}</h3>
+                                    <img class="icono-nuevo-producto" src="img/icons8-new-50-2.png" alt="">${productos[p].descuento}
+                                    <center>
+                                        <a class="button MODAL-BUTTON button-fav-p"  href="#popup1" onclick="generarPopUp(${p})">
+                                            ver detalles
+                                        </a>
+                                    </center>
+                                </div>
+                            </div>
+                                `;
+                            }
+                        }
+                    }
+                    console.log(etiqueta);
+                    marker = new L.marker([markers[i][1],markers[i][2]]).bindPopup(etiqueta).addTo(map);
+                }
+            }
+       
       }
+}
+function comprar(){
+    if(document.getElementById("comprar").value=="COMPRAR"){
+        document.getElementById("creditCard").style.display="block";
+        document.getElementById("comprar").value="EFECTUAR COMPRA";
+        document.getElementById("comprar").style.display="none";
+        
+    }else if(document.getElementById("comprar").value=="EFECTUAR COMPRA"){
+       axios({
+            method:'GET',
+            url:'../BACKEND/api/usuario.php?id='+codigoCliente,
+            respType:'json'
+        }).then(res=>{
+            var cliente=res.data;
+            var carrito=cliente.carrito;
+            for(i=0;i<carrito.length;i++){
+
+            
+                let eliminarProducto={
+                    accion:"eliminar-producto-carrito",
+                    codigoProducto:carrito[i],
+                    codigoUsuario:codigoCliente
+                } 
+                axios({
+                    method:'PUT',
+                    url:'../BACKEND/api/usuario.php?id='+codigoCliente,
+                    respType:'json',
+                    data:eliminarProducto
+                }).then(res=>{
+                    console.log(res);
+                   
+                }).catch(error=>{
+                    console.log(error);
+                })
+            }
+            console.log(res);
+            document.getElementById("cuerpo").innerHTML="";
+            document.getElementById("total").innerHTML="0";
+        alert("HAS LLEVADO A CABO LA COMPRA DE TUS PRODUCTOS GUARDADOS, ESPERA A RECIBIRLOS");
+        }).catch(error=>{
+            console.log(error);
+        })
+       
+        
+    }
+    
 }

@@ -375,8 +375,6 @@
         public static function actualizarEmpresa(
                 $nombreEmpresa,
                 $codigoEmpresa,
-                $email,
-                $contrasena,
                 $pais,
                 $direccion,
                 $telefono,
@@ -402,8 +400,8 @@
             $empresaact=array(
                 "nombreEmpresa"=>$nombreEmpresa,
                 "codigoEmpresa"=>$codigoEmpresa,
-                "email"=>$email,
-                "contrasena"=>$contrasena,
+                "email"=>$empresa['email'],
+                "contrasena"=>$empresa['contrasena'],
                 "pais"=>$pais,
                 "direccion"=>$direccion,
                 "telefono"=>$telefono,
@@ -433,19 +431,20 @@
             fwrite($archivo, json_encode($empresas));
             fclose($archivo);
         }
-        public static function verificarCredenciales($correo, $contrasena){
+        public static function verificarCredenciales($email, $contrasena){
             $contenidoArchivo = file_get_contents('../data/empresas.json');
             $empresas=json_decode($contenidoArchivo, true);
             $encontrado=0;
             for($i=0;$i<sizeof($empresas);$i++){
-                if($empresas[$i]["email"]==sha1($correo)&&$empresas[$i]["contrasena"]==sha1($contrasena)){
+               
+                if($empresas[$i]["email"]==sha1($email)&&$empresas[$i]["contrasena"]==sha1($contrasena)){
                     $encontrado=1;
                     return json_encode($empresas[$i]);
                 break;
                 }
             }
             if($encontrado==0){
-               
+                return "nada";
             }
         }
     }

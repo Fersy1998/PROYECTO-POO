@@ -418,7 +418,6 @@ public static function deleteEmpresaFavorita($cliente,$codEmpresa){
             $apellidoCliente,
             $correo,
             $fotoPerfil,
-            $contrasena,
             $sexo){
         $contenidoArchivo = file_get_contents('../data/usuarios.json');
         $usuarios=json_decode($contenidoArchivo, true);
@@ -442,7 +441,7 @@ public static function deleteEmpresaFavorita($cliente,$codEmpresa){
             "apellidoCliente"=>$apellidoCliente,
             "correo"=>sha1($correo),
             "fotoPerfil"=>$fotoPerfil,
-            "contrasena"=>sha1($contrasena),
+            "contrasena"=>$usuario1['contrasena'],
             "sexo"=>$sexo,
             "productosFavoritos"=>$p,
             "empresasFavoritas"=>$e,

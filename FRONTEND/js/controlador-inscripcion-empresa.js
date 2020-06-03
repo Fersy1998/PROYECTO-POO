@@ -51,6 +51,30 @@ function guardarEmpresa(){
                 data:empresa_nueva
             }).then(res=>{
                 console.log(res);
+                axios({
+                    method:'POST',
+                    url:'../BACKEND/api/login.php',
+                    respType:'json',
+                    data:{password:document.getElementById("password").value,
+                        email:document.getElementById("email-empresa").value
+
+                    }
+                }).then(res=>{
+                    console.log(res.data);
+
+                    document.getElementById("name-empresa").value="";
+                    document.getElementById("pais").value="";
+                    document.getElementById("direccion").value="";
+                    document.getElementById("telefono").value="";
+                    document.getElementById("descripcion").value="";
+                    document.getElementById("email-empresa").value="";
+                    document.getElementById("password").value="";
+                    document.getElementById("longitud").value="";
+                    document.getElementById("latitud").value="";
+                    window.location.href='empresa.php'
+                }).catch(error=>{
+                    console.log(error);
+                })
             }).catch(error=>{
                 console.log(error);
             })

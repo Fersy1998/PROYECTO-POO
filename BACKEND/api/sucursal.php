@@ -13,6 +13,7 @@
             $_POST= json_decode(file_get_contents('php://input'), true);
             $sucursal=new Sucursal(
                 $_POST["codigoSucursal"],
+                $_POST["codigoEmpresa"],
                 $_POST["direccion"],
                 $_POST["telefono"],
                 $_POST["pais"],

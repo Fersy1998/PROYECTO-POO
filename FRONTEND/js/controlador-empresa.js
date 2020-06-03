@@ -16,14 +16,7 @@ function getCookie(cname) {
     return "";
   }
 var codigoEmpresa=getCookie("codigoEmpresa");
-$(document).ready(function(){
-    $("#imprimir").click(function(){
-        var mode = 'iframe'; //popup
-        var close = mode == "popup";
-        var options = { mode : mode, popClose : close};
-        $("div.printableArea").printArea( options );
-    });
-});
+
 function generarEmpresa(){
     axios({
         method:'GET',
@@ -31,7 +24,6 @@ function generarEmpresa(){
         respType:'json'
     })
     .then(res=>{
-        console.log(res.data);
         empresa=res.data;
         productos=empresa.productos;
         document.getElementById("bannerEmpresa").innerHTML=`
@@ -44,7 +36,7 @@ function generarEmpresa(){
         <div class="container">
         <div class="row">
             <div class="cabecera-de-seccion col-md-12 text-center">
-                <h2>${empresa.nombreEmpresa}</h2>&nbsp;&nbsp;<a href="#" class="fa fa-edit visible-xs visible-sm" onClick="editarPerfil()" data-toggle="tooltip" data-placement="bottom" title="Editar perfil de la empresa"></a>
+                <h2>${empresa.nombreEmpresa}</h2>&nbsp;&nbsp;<a href="#popUp" id="ed"class="fa fa-edit visible-xs visible-sm" onClick="editarPerfil()" data-toggle="tooltip" data-placement="bottom" title="Editar perfil de la empresa"></a>
             </div> 
         </div>
         <div class="row">
@@ -72,7 +64,7 @@ function generarEmpresa(){
                 <a href="#" class="fa fa-support">&nbsp;&nbsp;&nbsp;CD-R 700MB/DVD 4,7GB</a> <br>
             </div>
         </div>
-        <div class="col-12 col-sm-12 col-md-5 col-lg-5">
+        <div class="col-12 col-md-4 col-lg-5 visible-lg visible-xl visible-md">
             <div id="map"></div>
             <!--<iframe width="500" height="300" src="https://api.maptiler.com/maps/streets/?key=oFtOenj9IFPbVxEBpcC0#0.1/${empresa.latitud}/${empresa.longitud}"></iframe>-->
         </div>
@@ -80,15 +72,15 @@ function generarEmpresa(){
         <div class="row">
             <div class="cabecera-de-seccion col-12 text-center">
                 <h2 id="mas-compania">Sobre nuestra compañía</h2>
-        </div>
-        <div>
-                <p id="mas-sobre-la-compania">
-                    ${empresa.descripcion}
+            </div>
+            <div>
+            <div style="overflow:hidden;" class="col-6 col-md-6 col-xs-6 col-sm-6 col-xl-6 col-lg-6">
+                <p id="mas-sobre-la-compania" style="color:white !important;">
+                ${empresa.descripcion}
                 </p>
-            
+            </div>
         </div>
-        </div>
-        </div>
+    </div>
         
         `;
         var long=Math.round(empresa.longitud * 100) / 100;
@@ -122,20 +114,16 @@ function generarProductos(){
             respType:'json'
         })
         .then(res=>{
-            console.log(res.data);
             var empresa=res.data;
             document.getElementById("row-promociones-empresa").innerHTML="";
             for(let p=0;p<empresa.productos.length; p++){
-                console.log(empresa.productos[p]);
                 axios({
                     method:'GET',
                     url:'../BACKEND/api/producto.php?id='+empresa.productos[p],
                     respType:'json'
                 })
                 .then(res=>{
-                    console.log(p);
                     var producto=res.data;
-                    console.log(res.data);
                     
                     document.getElementById("row-promociones-empresa").innerHTML+=`
                     <div class="col-12 col-md-4 col-sm-4 col-lg-3 col-xs-6">
@@ -158,23 +146,13 @@ function generarProductos(){
                                         <li class="detalle-producto-con-promocion-empresa">
                                             <a href="#" class="fa fa-database"></a>&nbsp;&nbsp;&nbsp;Precio:${producto.precio}L
                                         </li>
-                                        <li class="detalle-producto-con-promocion-empresa">
-                                            
-                                            <a href="#" class="fa fa-home"></a>
-                                            <span>
-                                                &nbsp;&nbsp;&nbsp;Sucursales:
-                                                <ol>
-                                                    <li><a href="#Tienda1">Tienda 1</a></li>
-                                                    <li><a href="#Tienda2">Tienda 2</a></li>
-                                                    <li><a href="#Tienda3">Tienda 3</a></li>
-                                                </ol>
-                                            </span>
-                                        </li>
+                                       
                                     </ul>
                                     <br><br><br><br>
                                     <hr>
                                     <center>
-                                        <a href="javascript:void(0);" class="button ficha" id="crearFicha${p}">Crear ficha<i class="fa fa-magic" onClick="generarFicha(${p})"></i></a><br><br>
+                                        <a href=""></a>
+                                       <a href="javascript:void(0);" class="button ficha" id="crearFicha${p}">Crear ficha<i class="fa fa-magic" onClick="generarFicha(${p})"></i></a><br><br>
                                         <a class="button MODAL-BUTTON " href="#popUp" onclick="generarPopUp(${p})">
                                             ver detalles
                                         </a>
@@ -196,7 +174,7 @@ function generarProductos(){
 /***PopUp formulario adicion producto */ 
 generarProductos();
 
-/*imprimir*/
+/*imprimir
 $(document).ready(function(){
     $("#imprimir").click(function(){
         var mode = 'iframe'; //popup
@@ -204,62 +182,123 @@ $(document).ready(function(){
         var options = { mode : mode, popClose : close};
         $("#Ficha").printArea( options );
     });
-});
+});*/
 
 
 /* Generar Ficha*/
+function cambiarValor(){
+    if(document.getElementById("imprimir").value=="IMPRIMIR"){
+        imp();
+        document.getElementById("imprimir").value="CERRAR FICHA";
+        return 0;
+    }else if( document.getElementById("imprimir").value=="CERRAR FICHA"){
+     
+        document.getElementById("Ficha").style.display="none";
+        document.getElementById("imprimir").style.display="none";
+        document.getElementById("imprimir").value="IMPRIMIR";
+        return 0;
+      
+    }
+   
+}
+/*imprimir*/
+function imp(){
+    
+        var mode = 'iframe'; //popup
+        var close = mode == "popup";
+        var options = { mode : mode, popClose : close};
+        $("#Ficha").printArea( options );
+    
+}
 
 function generarFicha(p){
-    document.getElementById("Ficha").style.display="";
-    document.getElementById("Ficha").style.display="block";
-    axios({
-        method:'GET',
-        url:'../BACKEND/api/empresa.php?id='+codigoEmpresa,
-        respType:'json'
-    })
-    .then(res=>{
-        console.log(res.data);
-        var empresa=res.data
+        document.getElementById("imprimir").style.display="block";
+        
+            document.getElementById("Ficha").style.display="block";
             axios({
                 method:'GET',
-                url:'../BACKEND/api/producto.php?id='+empresa.productos[p],
+                url:'../BACKEND/api/empresa.php?id='+codigoEmpresa,
                 respType:'json'
             })
             .then(res=>{
-                var producto=res.data;
-                document.getElementById("Ficha").innerHTML=`
-                <div class="popup" id="print">
-                <div class="content" style="background-color:white;">
-                    <br>
-                    <center><h2 style="font-family: 'Bungee Shade', cursive; ">${producto.producto}</h2></center>
-                    <div class="container-fluid detalles_producto">
-                        <div class="row">
-                            <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xl-4">
-                                <h3>Empresa: </h3><p class="information">${empresa.nombreEmpresa}</p>
-                                <h3>Precio: </h3><p class="information" style="color:black; !important"><strike>${producto.precio}</strike>L</p>
-                                <h3>Descuento: </h3><p class="information" style="font-size:3em; color: rgb(206, 5, 5);">${producto.descuento}%</p>
+                var empresa=res.data
+                    axios({
+                        method:'GET',
+                        url:'../BACKEND/api/producto.php?id='+empresa.productos[p],
+                        respType:'json'
+                    })
+                    .then(res=>{
+                        var producto=res.data;
+                        var cs=5-producto.valoracion;
+                        var cods="";
+                            
+                        for(let s=0; s<producto.valoracion; s++){
+                            cods+=`<i class="fa fa-star"></i>`;
+                        }
+                        for(let s=0; s<cs; s++){
+                            cods+=`<i class="fa fa-star-o"></i>`;
+                        }              
+                        document.getElementById("Ficha").innerHTML=`
+                        <div id="print">
+                        <div id="container" class="row content popup">	
+            
+                        <!-- Start	Product details -->
+                            <div class="product-details col-6 col-xs-6 col-md-6 col-sm-6 col-lg-6 col-xl-6">
                                 
+                                    <!-- 	Product Name -->
+                                <h1>${producto.producto}</h1>
+                        
+                        <!-- 		the Product rating -->
+                                        <span class="hint-star star">
+                                            ${cods}
+                                        </span>
+                                
+                            
+                                <!-- The most important information about the product -->
+                                        <p class="information">${producto.descripcionProducto} </p>
+        
+                                
+                                                
+                                        <!-- 		Control -->
+                                        <div class="control">
+                                            <strike style="font-size:1.3em;">${producto.precio}</strike>
+                                            <h1 style="color:red">¡${producto.descuento}% de descuento!</h1>
+                                            
+                                        </div>
+                                    
                             </div>
-                            <div class="col-8 col-xs-8 col-sm-8 col-md-8 collg-8 col-xl-6">
-                                <div class="product-image">
-                                    <img src="${producto.foto}" style="width:160px;">
-                                    <img src="${producto.codigoProducto}" style="border-color:blue; border-width:3px; border-style:dotted;">
-                                </div>
-                            </div>
-                           
+                            
+                        <!-- 	End	Product details   -->
+                            
+                            
+                            
+                        <!-- 	Start product image & Information -->
+                            
+                        <div class="col-6 col-xs-6 col-md-6 col-sm-6 col-lg-6 col-xl-6">
+                            
+                            <img src="${producto.foto}" alt="Omar Dsoky" style="height:200px; width:200px"><hr>
+                            <center><img src="${producto.codigoProducto}" alt="Omar Dsoky" style="height:120px; width:120px"></center>
+                            
                         </div>
+                        <!--  End product image  -->
+        
+        
                         </div>
-                </div>
-                </div>
-                `;
-            })
-            .catch(error=>{
-                    console.log(error);
-                })
-            })
-            .catch(error=>{
-                    console.log(error);
-                })
+        
+        
+        
+                        </div>
+                        `;
+                    })
+                    .catch(error=>{
+                            console.log(error);
+                        })
+                    })
+                    .catch(error=>{
+                            console.log(error);
+                        })
+                    
+ 
     
 }
 /*function abrirVentana(){
@@ -289,7 +328,7 @@ function mostrarImagen(){
 /***GENERAR CÓDIGO QR */ 
 function generarCodigo(){
     $(".qr-code").attr("src", "https://chart.googleapis.com/chart?cht=qr&chl=" + $("#descripcion-producto").val() + "&chs=200x200");
-    console.log("https://chart.googleapis.com/chart?cht=qr&chl=" + $("#descripcion-producto").val() + "&chs=200x200")
+   
 };
 /*****generar popUp */
 function generarPopUp(p){
@@ -300,7 +339,6 @@ function generarPopUp(p){
         respType:'json'
     })
     .then(res=>{
-        console.log(res.data);
         var empresa=res.data
             axios({
                 method:'GET',
@@ -310,7 +348,6 @@ function generarPopUp(p){
             .then(res=>{
                 words("");
                 var producto=res.data;
-                console.log(res.data);
                 var cs=5-producto.valoracion;
                 var cods="";
                 var comentarios=producto.comentarios;
@@ -323,8 +360,6 @@ function generarPopUp(p){
                     })
                     .then(res=>{
                             var comentario=res.data;
-                            console.log("*************comentario");
-                            console.log(comentario);
                             axios({
                                 method:'GET',
                                 url:'../BACKEND/api/usuario.php?id='+comentario.codigoUsuario,
@@ -332,16 +367,12 @@ function generarPopUp(p){
                             })
                             .then(res=>{
                                 usuario=res.data;
-                                console.log("usuario*********************");
-                                console.log(usuario);
-                                console.log("usuario*********************");
-                                console.log(comentario.contenido);
                                 
                                     Ccomentario+=`
                                     <li>
                                     <div class="comment-main-level row">
                                         <!-- Avatar -->
-                                        <div class="comment-avatar col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2"><img src="${usuario.fotoPerfil}" alt=""></div>
+                                        <div class="comment-avatar col-1 col-lg-2 col-md-2 col-sm-2 col-xs-2 col-xl-2"><img src="${usuario.fotoPerfil}" alt=""></div>
                                         <!-- Contenedor del Comentario -->
                                         <div class="comment-box col-lg-10 col-md-10 col-sm-10 col-xs-10 col-xl-10">
                                             <div class="row">
@@ -358,7 +389,6 @@ function generarPopUp(p){
                                     </li> 
                                 `;
                                 words(Ccomentario);
-                                console.log(Ccomentario);
                             })
                             .catch(error=>{
                                 console.log(error);
@@ -373,7 +403,6 @@ function generarPopUp(p){
                         }
                         
                     
-                    console.log(Ccomentario);
                 
                 
                 for(let s=0; s<producto.valoracion; s++){
@@ -398,12 +427,13 @@ function generarPopUp(p){
                                         <h3>Pago total: </h3><p class="information">${nuevoprecio}L</p>
                                     </div>
                                     <div class="col-6 col-xs-6 col-sm-6 col-md-6 collg-6 col-xl-6">
-                                        <div class="product-image">
-                                            <img src="${producto.foto}">
-                                        </div>
-                                        <div>
-                                            <span class="estrellas" id="">${cods}
-                                            </span>
+                                        <div class="product-image w-100" style="width:100%;">
+                                        <center>
+                                        <img src="${producto.foto}" ><hr>
+                                        <span class="hint-star"style="width:100%;">${cods}
+                                        </span>
+                                        </center>
+                                           
                                         </div>
                                     </div>
                                     <div class="row">
@@ -429,8 +459,6 @@ function generarPopUp(p){
     })
 }
 function obtenerComentarioGlobal(){
-    console.log("comentario global en obtener");
-    console.log(comentarioGlobal);
     document.getElementById("comments-list").innerHTML=comentarioGlobal;
 }
 
@@ -444,7 +472,6 @@ function eliminarProducto(codigo){
         respType:'json'
     })
     .then(res=>{
-        console.log(res.data);
         var empresa=res.data
             axios({
                 method:'GET',
@@ -454,8 +481,6 @@ function eliminarProducto(codigo){
             .then(res=>{
                 words("");
                 var producto=res.data;
-                console.log("eliminar producto con código");
-                console.log(producto.code);
                 datos={
                     accion:"eliminar-producto",
                     codigoEmpresa:codigoEmpresa,
@@ -495,8 +520,7 @@ function agregarProducto(){
     console.log(document.getElementById("fotografia"));
     var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
     axios.post('http://localhost:8080/pooo/FRONTEND/sube-producto', formData)
-    .then(res=>{console.log(res);
-        console.log(filename);
+    .then(res=>{
         let producto={
             producto:document.getElementById("nombre-producto").value,
             codigoProducto:"https://chart.googleapis.com/chart?cht=qr&chl="+x+"&chs=200x200",
@@ -532,8 +556,14 @@ function agregarProducto(){
             }
         }).then(res=>{
             console.log(res);
-            
-        generarProductos();
+            document.getElementById("descripcion-producto").value="";
+            document.getElementById("fotografia").value="";
+            document.getElementById("nombre-producto").value="";
+            document.getElementById("descripcion-producto").value="";
+            document.getElementById("precio-producto").value="";
+            document.getElementById("descuento-producto").value="";
+            alert("Producto agregado correctamente");
+            generarProductos();
         }).catch(error=>{
             console.log(error);
         })
@@ -552,7 +582,6 @@ function editarPerfil(){
             
         })
         .then(res=>{
-            console.log(res.data);
             var empresa=res.data;
             document.getElementById("popUp").innerHTML=`
             <div class="popup special h-75 w-80" style="top:12%;">
@@ -840,7 +869,7 @@ function editarPerfil(){
                                         </p>
                                         <h2>Longitd/Latitud: </h2>
                                         <p>
-                                            <div id="mapaGoogle" style="width:100%px;height:380px;"></div>
+                                            
                                             ltd:<input type="text" id="latitud" name="latitud"class="datos"value="${empresa.latitud}"/>
                                             Lng:<input type="text" id="longitud" name="longitud"class="datos"value="${empresa.longitud}"/>
                                         </p>
@@ -869,15 +898,14 @@ function editarPerfil(){
         })
 }
 function validarCampos(){
-        if(document.getElementById("name-empresa").value.length==0||document.getElementById("email-empresa").value.length==0||document.getElementById("direccion").value.length==0||document.getElementById("telefono").value.length==0||document.getElementById("banner").value.length==0||document.getElementById("logo").value.length==0||document.getElementById("descripcion").value.length==0||document.getElementById("longitud").value.length==0||document.getElementById("latitud").value.length==0){
+        if(document.getElementById("name-empresa").value.length==0||document.getElementById("direccion").value.length==0||document.getElementById("telefono").value.length==0||document.getElementById("banner").value.length==0||document.getElementById("logo").value.length==0||document.getElementById("descripcion").value.length==0||document.getElementById("longitud").value.length==0||document.getElementById("latitud").value.length==0){
             alert("NO PUEDE DEJAR CAMPOS VACÍOS");
         }else{
             let expresionTelefono=/^(\(\+?\d{2,3}\)[\*|\s|\-|\.]?(([\d][\*|\s|\-|\.]?){6})(([\d][\s|\-|\.]?){2})?|(\+?[\d][\s|\-|\.]?){8}(([\d][\s|\-|\.]?){2}(([\d][\s|\-|\.]?){2})?)?)$/;
-            let expresionCorreo=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/;
+          
             if(!expresionTelefono.test(document.getElementById("telefono").value)){
                 alert("Ingrese un número telefónico válido");
-            }else if(!expresionCorreo.test(document.getElementById("email-empresa").value)){
-                alert("Sintaxis de correo electónico inválida");
+
             }else{
                 actualizarEmpresa()
             }
@@ -892,12 +920,10 @@ function actualizarEmpresa(){
     console.log(logoFormData);
     axios.post('http://localhost:8080/POOO/FRONTEND/sube-logo', logoFormData)
     .then(res=>{
-            console.log("banner /////////////////////////////////////////////////////");
-            console.log(res.data);
-            console.log("respuesta res= ");
+          
             var cadena=res.data;
             cadena=cadena.split("****************************");
-            console.log(cadena);
+          
             let empresa_nueva={
                 nombreEmpresa:document.getElementById("name-empresa").value,
                 codigoEmpresa:codigoEmpresa,
@@ -907,8 +933,6 @@ function actualizarEmpresa(){
                 direccion:document.getElementById("direccion").value,
                 telefono:document.getElementById("telefono").value,
                 descripcion:document.getElementById("descripcion").value,
-                email:document.getElementById("email-empresa").value,
-                contrasena:document.getElementById("password").value,
                 longitud:document.getElementById("longitud").value,
                 latitud:document.getElementById("latitud").value
             }
@@ -935,7 +959,7 @@ function editarProducto(p){
         respType:'json'
     })
     .then(res=>{
-        console.log(res.data);
+        
         empresa=res.data;
         axios({
             method:'GET',
@@ -943,7 +967,7 @@ function editarProducto(p){
             respType:'json'
         })
         .then(res=>{
-            console.log(res.data);
+            
             producto=res.data;
             document.getElementById("nombre-producto").value=producto.producto;
             document.getElementById("descripcion-producto").value=producto.descripcionProducto;
@@ -968,29 +992,28 @@ function guardarCambiosP(p){
         respType:'json'
     })
     .then(res=>{
-            console.log(res.data);
+           
             var empresa=res.data;
             var cproducto=empresa.productos[p];
-            console.log(cproducto);
+           
             axios({
                 method:'GET',
                 url:'../BACKEND/api/producto.php?id='+cproducto,
                 respType:'json'
             })
             .then(res=>{
-                console.log(res.data);
+               
                 producto=res.data;
                 var x=document.getElementById("descripcion-producto").value;
                 let codigo=producto.code;
                 var picForm=$('#picForm');
                 let formData= new FormData(picForm[0]);
-                console.log(formData);
-                console.log(document.getElementById("fotografia"));
+                
                 var filename = $('input[type=file]').val().replace(/C:\\fakepath\\/i, '');
                 axios.post('http://localhost:8080/pooo/FRONTEND/sube-producto', formData)
-                .then(res=>{console.log(res);
-                console.log(filename);
-                let producto={
+                .then(res=>{
+                    console.log(res);
+                    let producto={
                     producto:document.getElementById("nombre-producto").value,
                     codigoProducto:"https://chart.googleapis.com/chart?cht=qr&chl="+x+"&chs=200x200",
                     descripcionProducto:document.getElementById("descripcion-producto").value,
@@ -1035,9 +1058,7 @@ function generarSucursales(){
         respType:'json'
     })
     .then(res=>{
-            console.log(res.data);
             var empresa=res.data;
-            console.log(empresa);
             var z=0;
             var x=1;
             for(var i=0;i<empresa.sucursales.length;i++){
@@ -1047,7 +1068,6 @@ function generarSucursales(){
                     respType:'json'
                 })
                 .then(res=>{
-                    console.log(res.data);
                     sucursal=res.data;
                     z+=i;
                     document.getElementById("sucursales").innerHTML+=`
@@ -1061,8 +1081,13 @@ function generarSucursales(){
                         </div>
                         
                         <img src="${sucursal.foto}" class="card-img-top" alt="...">
-                          <div class="card-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                          <div class="card-body row">
+                                <div class="col-4 col-xs-4 col-md-4 col-sm-4 col-xl-4 col-lg-4"><strong><h2>Teléfono: </h2></strong></div>
+                                <div class="col-8 col-xs-8 col-md-8 col-sm-8 col-xl-8 col-lg-8"><h2 style="color:#686466">${sucursal.telefono} </h2></div>
+
+                                <div class="col-4 col-xs-4 col-md-4 col-sm-4 col-xl-4 col-lg-4"><b><h2>Dirección: </h2></b></div>
+                                <div class="col-8 col-xs-8 col-md-8 col-sm-8 col-xl-8 col-lg-8"><h2 style="color:#686466">${sucursal.direccion} </h2></div>
+                                
                           </div>
                         </div>
                       </div>
@@ -1085,13 +1110,12 @@ function agregarSucursal(){
     var picForm1=$('#picForm1');
     let formData= new FormData(picForm1[0]);
     console.log(formData);
-    console.log(document.getElementById("fotografia"));
     var filename = $('#inputSucursal').val().replace(/C:\\fakepath\\/i, '');
     axios.post('http://localhost:8080/pooo/FRONTEND/sube-sucursal', formData)
     .then(res=>{console.log(res);
-        console.log(filename);
         let sucursal={
             codigoSucursal:codigo,
+            codigoEmpresa:codigoEmpresa,
             direccion:document.getElementById("direccion-sucursal").value,
             telefono:document.getElementById("telefono-sucursal").value,
             pais:document.getElementById("pais-sucursal").value,
@@ -1138,9 +1162,7 @@ function eliminarSucursal(indice){
         respType:'json'
     })
     .then(res=>{
-            console.log(res.data);
             var empresa=res.data;
-            console.log(empresa);
             axios({
                 method:'DELETE',
                 url:'../BACKEND/api/sucursal.php?id='+empresa.sucursales[indice],
@@ -1158,17 +1180,12 @@ function eliminarSucursal(indice){
 }
 
 function vista() {
-    var x = document.getElementById("myDIV");
+   
     var mas=document.getElementById("mas-sobre-la-compania");
     var masT=document.getElementById("mas-compania");
     var Tsuc=document.getElementById("Tsuc");
     var agrProm=document.getElementById("agregarPromociones");
-    var Tsuc=document.getElementById("Tsuc");
-    if (x.style.display === "none") {
-      x.style.display = "block";
-    } else {
-      x.style.display = "none";
-    }
+    var ed=document.getElementById('ed');;
     if(mas.style.display==="none"){
         mas.style.display="block";
     }else{
@@ -1188,10 +1205,15 @@ function vista() {
         `;
         document.getElementById('editarPerfil').style.visibility="visible";
     }
-    if(Tsuc.style.visibility==="none"){
-        Tsuc.style.visibility="block ";
+    if(Tsuc.style.visibility==="hidden"){
+        Tsuc.style.visibility="visible ";
     }else{
         Tsuc.style.visibility="none !important";
+    }
+    if(ed.style.display==="none"){
+        ed.style.display="block ";
+    }else{
+        ed.style.display="none !important";
     }
    /* if(document.getElementById('editarPerfil').style.display==="none"){
         console.log("hola 1");
@@ -1265,6 +1287,27 @@ const mapa = new ol.Map({
     })
 });
 finmapa*/
+function mostrarGrafico(){
+    
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(dibujarGrafico);
 
-
-
+}
+function dibujarGrafico() {
+    // Tabla de datos: valores y etiquetas de la gráfica
+    var data = google.visualization.arrayToDataTable([
+    ['Texto', 'Valor numérico'],
+    ['Texto1', 20.21],
+    ['Texto2', 4.28],
+    ['Texto3', 17.26],
+    ['Texto4', 10.25]
+    ]);
+    var options = {
+    title: 'Ejemplo con Google Charts: Gráfico de barras'
+    }
+    // Dibujar el gráfico
+    new google.visualization.ColumnChart(
+    //ColumnChart sería el tipo de gráfico a dibujar
+    document.getElementById('grafico')
+    ).draw(data, options);
+    }

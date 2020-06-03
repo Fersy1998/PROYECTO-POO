@@ -22,6 +22,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/font-awesome.css">
         <link rel="stylesheet" href="css/all_promo_style.css">
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
         <!--<link rel="shortcut icon" type="image/x-icon" href="img/LOGO_ALL_PROMO.ico" />
@@ -86,6 +87,7 @@
         <div class="seccion" id="Perfil">
             
         </div>
+    
         <div class="seccion container" id="sin-resultados">
             <P class="d-flex text-center">No se han encontrado productos que coincidan con tu búsqueda.</P>
         </div>
@@ -109,8 +111,10 @@
                         <h2>MAPA</h2>
                     </div>
                 </div>
-                <div class="row mapa" id="map">
-                </div>
+                <center>
+                    <div class="row mapaProducts" id="map">
+                    </div>
+                </center>
                 </div>
             </div>
         </div>
@@ -201,8 +205,8 @@
                                         <tfoot>
                                             <tr>
                                             <td> Totales</td>
-                                            <td class="PrecioTotal"> $23 </td>
-                                            <td class="CantidadTotal"> 5 </td>
+                                            <td class="PrecioTotal" id="total" style="color:red;font-size:2em;"></td>
+                                            <td class="CantidadTotal"></td>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -213,7 +217,67 @@
                         </div>
                         <br>
                         <center>
-                            <button class="button"onclick="comprar()">COMPRAR</button>
+                                <!--PAGO-->
+                                <div class="creditCardForm" style="display:none; " id="creditCard">
+                                    <div class="heading">
+                                        <h1>Confirmar tarjeta de crédito</h1>
+                                    </div>
+                                    <div class="payment">
+                                        <form>
+                                            <div class="form-group owner">
+                                                <label for="owner">Propietario</label>
+                                                <input type="text" class="form-control" id="owner">
+                                            </div>
+                                            <div class="form-group CVV">
+                                                <label for="cvv">CVV</label>
+                                                <input type="text" class="form-control" id="cvv">
+                                            </div>
+                                            <div class="form-group" id="card-number-field">
+                                                <label for="cardNumber">Número de tarjeta</label>
+                                                <input type="text" class="form-control" id="cardNumber">
+                                            </div>
+                                            <div class="form-group" id="expiration-date">
+                                                <label>Fecha de expiración</label>
+                                                <select>
+                                                    <option value="01">Enero</option>
+                                                    <option value="02">Febrero </option>
+                                                    <option value="03">Marzo</option>
+                                                    <option value="04">Abril</option>
+                                                    <option value="05">Mayo</option>
+                                                    <option value="06">Junio</option>
+                                                    <option value="07">Julio</option>
+                                                    <option value="08">Agosto</option>
+                                                    <option value="09">Septiembre</option>
+                                                    <option value="10">Octubre</option>
+                                                    <option value="11">Noviembre</option>
+                                                    <option value="12">Diciembre</option>
+                                                </select>
+                                                <select>
+                                                   
+                                                    <option value="20"> 2020</option>
+                                                    <option value="21"> 2021</option>
+                                                    <option value="16"> 2022</option>
+                                                    <option value="17"> 2023</option>
+                                                    <option value="18"> 2024</option>
+                                                    <option value="19"> 2025</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group" id="credit_cards">
+                                                <img src="img/cardImages/visa.jpg" id="visa">
+                                                <img src="img/cardImages/mastercard.jpg" id="mastercard">
+                                                <img src="img/cardImages/amex.jpg" id="amex">
+                                            </div>
+                                            <div class="form-group" id="pay-now">
+                                                <button type="submit" class="button btn btn-default" id="confirm-purchase" >Confirmar</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+
+        <!--FIN PAGO-->
+                            <input type="button" class="button" onclick="comprar()" value="COMPRAR" id="comprar">
                            
                         </center>
                     </div>
@@ -227,7 +291,8 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/node-uuid/1.4.7/uuid.min.js"></script>
-        
+        <script src="js/jquery.payform.min.js" charset="utf-8"></script>
+        <script src="js/script.js"></script>
         <script src="js/controlador-cliente.js"></script>
         
 

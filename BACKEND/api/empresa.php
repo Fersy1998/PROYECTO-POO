@@ -54,9 +54,7 @@
                     $_PUT['logoimg'],
                     $_PUT['descripcion'],
                     $_PUT['longitud'],
-                    $_PUT['latitud'],
-                    $_PUT['sucursales'],
-                    $_PUT['productos']
+                    $_PUT['latitud']
                 );
             break;
             }

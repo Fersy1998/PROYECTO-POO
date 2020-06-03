@@ -74,7 +74,7 @@ class Comentario{
             "contenido"=>$this->contenido,
             "codigoComentario"=>$this->codigoComentario,
             "codigoUsuario"=>$this->codigoUsuario,
-            "codigoProducto"=>$this->contenido,
+            "codigoProducto"=>$this->codigoProducto,
             
         );
         $archivo=fopen("../data/comentarios.json", "w");

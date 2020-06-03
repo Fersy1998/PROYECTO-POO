@@ -1,6 +1,7 @@
 <?php
 class Sucursal{
     private $codigoSucursal;
+    private $codigoEmpresa;
     private $direccion;
     private $telefono;
     private $pais;
@@ -9,6 +10,7 @@ class Sucursal{
     private $foto; 
     public function __construct(
         $codigoSucursal,
+        $codigoEmpresa,
         $direccion,
         $telefono,
         $pais,
@@ -17,6 +19,7 @@ class Sucursal{
         $foto
     ){   
         $this->codigoSucursal=$codigoSucursal;
+        $this->codigoEmpresa=$codigoEmpresa;
         $this->direccion=$direccion;
         $this->telefono=$telefono;
         $this->pais=$pais;
@@ -30,6 +33,13 @@ class Sucursal{
 
 	public function setCodigoSucursal($codigoSucursal){
 		$this->codigoSucursal = $codigoSucursal;
+    }
+    public function getCodigoEmpresa(){
+		return $this->codigoEmpresa;
+	}
+
+	public function setCodigoEmpresa($codigoEmpresa){
+		$this->codigoEmpresa = $codigoEmpresa;
 	}
     public function getDireccion(){
 		return $this->direccion;
@@ -118,6 +128,7 @@ class Sucursal{
         $sucursales=json_decode($contenidoArchivo, true);
         $sucursales[]=array(
             "codigoSucursal"=>$this->codigoSucursal,
+            "codigoEmpresa"=>$this->codigoEmpresa,
             "direccion"=>$this->direccion,
             "telefono"=>$this->telefono,
             "pais"=>$this->pais,

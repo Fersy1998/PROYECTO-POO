@@ -11,6 +11,7 @@ function getProductos(){
     })
     .then(res=>{
         this.mis_productos=Object.entries(res.data);
+        console.log(mis_productos);
         llenarProductos(mis_productos);
     })
     .catch(error=>{
@@ -18,8 +19,11 @@ function getProductos(){
     })
 }
 function llenarProductos(data){
+    console.log("data");
+    console.log(data);
     for(let i=0;i<data.length;i++){
         productos[i]=data[i][1];
+        console.log(productos[i]);
         
     }
     generarPromociones();
@@ -36,6 +40,7 @@ function getEmpresas(){//Función para obtener las empresas y usuarios y llenar 
     })
     .then(res=>{
         this.mis_empresas=Object.entries(res.data);
+        console.log(mis_empresas);
         llenarEmpresas(mis_empresas)
         getUsuarios();
 
@@ -48,6 +53,7 @@ function getEmpresas(){//Función para obtener las empresas y usuarios y llenar 
 /********generarpromociones */
 function generarPromociones(){
     document.getElementById("row-seccion-landing-page-promociones").innerHTML="";
+    console.log("lenght productos: "+productos.length);
     for(let p=0; p<productos.length;p++){
 
             document.getElementById("row-seccion-landing-page-promociones").innerHTML+=`
@@ -85,6 +91,7 @@ function generarPromociones(){
 const formulario=document.querySelector("#desplegar");
 const resultado=document.querySelector("#resultado-busqueda");
 const filtrar= ()=>{
+    console.log(formulario.value);
     const texto=formulario.value.toLowerCase();
     document.getElementById("productos-busqueda").innerHTML="";
     var c=0;
@@ -162,6 +169,7 @@ function validarCamposIndex(){
 function guardarUsuario(){
     var picForm=$('#picForm');
     let formData= new FormData(picForm[0]);
+    console.log(formData);
     axios.post('http://localhost:8080/pooo/FRONTEND/sube-usuario', formData)
     .then(res=>{console.log(res);
         
@@ -214,6 +222,7 @@ function generarPopUp(p){
         cods+=`<i class="fa fa-star-o"></i>`;
     }
     var nuevoprecio= productos[p].precio - ((parseInt(productos[p].descuento , 10))/100)*parseInt(productos[p].precio);    
+    console.log(productos[p].codigoEmpresa);
     axios({
         method:'GET',
         url:'../BACKEND/api/empresa.php?id='+productos[p].codigoEmpresa,
@@ -221,6 +230,7 @@ function generarPopUp(p){
         
     })
     .then(res=>{
+        console.log(res.data);
         const empresa=res.data;
         document.getElementById("popup1").innerHTML=`
         <div class="popup">
